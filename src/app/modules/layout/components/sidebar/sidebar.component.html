@@ -1,0 +1,75 @@
+<div class="flex justify-between
+            md:flex-col md:h-screen md:p-2 p-1
+            transition-all duration-500
+            bg-white shadow
+            dark:bg-dark2
+            2xl:w-72
+            xl:w-60
+            max-xl:w-[73px]
+            max-md:w-screen
+            max-md:border-t
+            max-md:dark:border-slate-700">
+  <div>
+    <h1 class=" p-2 font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+      Postfy
+    </h1>
+
+    <div app-menu></div>
+  </div>
+  <div class="relative flex flex-row px-3 justify-between group">
+    <div class="flex flex-row space-x-3">
+      <img src="https://picsum.photos/200" class="rounded-full md:w-7 md:h-7 w-5 h-5 shrink-0">
+      <span class="font-semibold text-sm max-xl:hidden my-auto">  Monroe Parker </span>
+    </div>
+    <svg-icon
+      src="assets/icons/solid/chevron-right.svg"
+      class="text-xl ml-auto duration-200 group-hover:-rotate-90 max-xl:hidden md hydrated"
+    ></svg-icon>
+
+    <div class="absolute
+                text-base
+                bg-white
+                w-full
+                bottom-0 right-0.5 left-0.5
+hidden
+                group-hover:block">
+      <div class="rounded-2xl shadow-2xl">
+        <div class="h-1.5 w-full rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-purple-500"></div>
+        <div class="p-4">
+          <div class="flex flex-col space-y-1">
+            <img src="https://picsum.photos/200" class="h-5 w-5 shrink-0 rounded-full md:h-7 md:w-7"/>
+            <span class="font-semibold">Monroe Parker</span>
+            <span class="text-sm font-semibold text-slate-500">@monroe</span>
+            <div class="flex flex-row space-x-2">
+              <span class="text-sm font-semibold">620K <span class="text-slate-500">Following</span></span>
+              <span class="text-sm font-semibold">620K <span class="text-slate-500">Followers</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="border-t p-4 font-medium ">
+          <ul class=" flex flex-col space-y-4">
+            <li class="flex flex-row space-x-2">
+              <svg-icon src="assets/icons/solid/user.svg"></svg-icon>
+              <span>Profile</span>
+            </li>
+            <li class="flex flex-row space-x-2">
+              <svg-icon src="assets/icons/solid/bookmark.svg"></svg-icon>
+              <span>Upgrade</span>
+            </li>
+            <li class="flex flex-row space-x-2">
+              <svg-icon src="assets/icons/solid/settings.svg"></svg-icon>
+              <span>Settings</span>
+            </li>
+            <li class="flex flex-row space-x-2">
+              <svg-icon src="assets/icons/solid/log-out.svg"></svg-icon>
+              <span>Log out</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
