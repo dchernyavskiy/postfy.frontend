@@ -5,12 +5,18 @@ import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home.component';
 import {StoriesComponent} from "./components/stories/stories.component";
 import {AngularSvgIconModule} from "angular-svg-icon";
+import { PostComponent } from './components/post/post.component';
+import { CommentComponent } from './components/post/comment/comment.component';
+import { SlideComponent } from './components/post/slide/slide.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    StoriesComponent
+    StoriesComponent,
+    PostComponent,
+    CommentComponent,
+    SlideComponent
   ],
   imports: [
     CommonModule,

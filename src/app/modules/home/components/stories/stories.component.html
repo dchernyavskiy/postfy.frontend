@@ -1,9 +1,9 @@
 <h3 class="font-extrabold text-2xl  text-black dark:text-white"> Stories</h3>
 <div class="uk-slider-container py-5">
   <ul class="uk-slider-items w-[calc(100%+14px)] flex"
-      uk-scrollspy="target: > li; cls: uk-animation-scale-up; delay: 20;repeat:true"
       style="transform: translate3d(0px, 0px, 0px);">
-    <li class="uk-scrollspy-inview uk-active md:pr-3" uk-scrollspy-class="uk-animation-fade" tabindex="-1" style="">
+    <li class="uk-scrollspy-inview uk-active md:pr-3"
+        tabindex="-1" style="">
       <div
         class="dark:bg-dark2 relative grid h-12 w-12 place-items-center rounded-full border-2 border-dashed border-slate-300 bg-slate-200 dark:border-slate-700 md:h-20 md:w-20">
         <svg-icon src="assets/icons/solid/camera.svg"></svg-icon>
@@ -89,17 +89,6 @@
           <img src="https://picsum.photos/200" alt="" class="absolute h-full w-full object-cover"/>
         </div>
       </a>
-    </li>
-    <li class="pr-2 duration-300 hover:-rotate-2 hover:scale-[1.15] md:pr-2.5" tabindex="-1" style="opacity: 0;">
-      <a data-caption="Caption 1">
-        <div
-          class="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white shadow dark:border-slate-700 md:h-20 md:w-20 md:border-4">
-          <img src="https://picsum.photos/200" alt="" class="absolute h-full w-full object-cover"/>
-        </div>
-      </a>
-    </li>
-    <li class="pr-2 md:pr-2.5" tabindex="-1" style="opacity: 0;">
-      <div class="dark:bg-dark2 h-12 w-12 animate-pulse rounded-full bg-slate-200/60 md:h-20 md:w-20"></div>
     </li>
   </ul>
 </div>
