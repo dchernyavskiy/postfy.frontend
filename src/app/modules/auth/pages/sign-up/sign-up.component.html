@@ -1,0 +1,17 @@
+<form class="flex flex-col justify-center space-y-2 items-center">
+
+  <input type="text" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Username or Email"/>
+
+  <div class="relative">
+    <input type="password" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Password"/>
+  </div>
+
+  <button type="submit"
+          class="font-medium w-full rounded-lg bg-slate-900 py-1.5 px-4 text-white h-[38px] active:scale-[0.97] transition-all duration-150">
+    Login
+  </button>
+</form>
+
+<span class="text-gray-400 mt-8">Don't you have an account? <a class="text-black"
+                                                            [routerLink]="['../sign-in']">Register</a></span>
+

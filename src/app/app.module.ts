@@ -5,6 +5,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AngularSvgIconModule} from "angular-svg-icon";
+import {IDENTITY_API_BASE_URL} from "./api/identity-api";
+import {environment} from "../environments/environment";
+import {NETWORK_API_BASE_URL} from "./api/network-api";
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import {AngularSvgIconModule} from "angular-svg-icon";
     HttpClientModule,
     AngularSvgIconModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {provide: IDENTITY_API_BASE_URL, useValue: environment.apiUrl},
+    {provide: NETWORK_API_BASE_URL, useValue: environment.apiUrl},
+  ],
   exports: [],
   bootstrap: [AppComponent]
 })
