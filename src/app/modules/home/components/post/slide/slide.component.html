@@ -1,0 +1,44 @@
+<img
+  *ngFor="let image of images; let i = index"
+  [src]="image"
+  alt=""
+  class="sm:rounded-lg
+         w-full
+         h-full
+         object-cover"
+  [ngClass]="{'hidden': i < offset || i >= offset + limit }">
+
+<button (click)="previous()"
+        [disabled]="offset == 0"
+        class="group"
+        [ngClass]="{'hidden':images.length === 1}"
+>
+  <svg-icon src="assets/icons/solid/chevron-left.svg"
+            class="absolute left-5 top-1/2
+           bg-slate-300 hover:bg-slate-100
+           rounded-3xl
+           duration-200
+           p-2
+           ml-auto
+           group-disabled:bg-slate-100
+"
+  ></svg-icon>
+</button>
+
+<button (click)="next()"
+        [disabled]="!(offset < images.length-1)"
+        class="group"
+        [ngClass]="{'hidden':images.length === 1}"
+>
+  <svg-icon src="assets/icons/solid/chevron-right.svg"
+            class="absolute right-5
+           top-1/2
+           bg-slate-300 hover:bg-slate-100
+           rounded-3xl
+           p-2
+           ml-auto
+           duration-200
+group-disabled:bg-slate-100"
+  ></svg-icon>
+</button>
+

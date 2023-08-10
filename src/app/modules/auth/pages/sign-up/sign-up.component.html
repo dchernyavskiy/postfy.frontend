@@ -1,0 +1,27 @@
+<form class="flex flex-col justify-center space-y-2 items-center">
+
+  <input type="text" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Username"/>
+
+  <input type="text" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="First Name"/>
+
+  <input type="text" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Last Name"/>
+
+  <input type="text" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Email"/>
+
+  <div class="relative">
+    <input type="password" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Password"/>
+    <!--      <svg-icon src="assets/icons/solid/eye.svg" class="absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2">-->
+    <!--      </svg-icon>-->
+  </div>
+
+  <input type="password" class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Confirm Password"/>
+
+  <button type="submit"
+          class="font-medium w-full rounded-lg bg-slate-900 py-1.5 px-4 text-white h-[38px] active:scale-[0.97] transition-all duration-150">
+    Register
+  </button>
+</form>
+
+<span class="text-gray-400 mt-8">Do you have an account? <a class="text-black"
+                                                            [routerLink]="['../sign-in']">Login</a></span>
+

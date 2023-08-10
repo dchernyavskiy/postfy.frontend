@@ -1,0 +1,27 @@
+<form class="flex flex-col justify-center space-y-2 items-center" #form="ngForm" (submit)="login()">
+
+  <input type="text"
+         class="bg-slate-100 rounded-md px-4 py-2 outline-none"
+         [(ngModel)]="userNameOrEmail"
+         name="userNameOrEmail"
+         required
+         placeholder="Username or Email"/>
+
+  <div class="relative">
+    <input type="password"
+           [(ngModel)]="password"
+           name="password"
+           required
+           class="bg-slate-100 rounded-md px-4 py-2 outline-none" placeholder="Password"/>
+  </div>
+
+  <button type="submit"
+          [disabled]="form.invalid && (form.dirty || form.touched) || form.errors"
+          class="font-medium w-full rounded-lg bg-slate-900 py-1.5 px-4 text-white h-[38px] active:scale-[0.97] transition-all duration-150">
+    Login
+  </button>
+</form>
+
+<span class="text-gray-400 mt-8">Don't you have an account? <a class="text-black"
+                                                               [routerLink]="['../sign-up']">Register</a></span>
+
