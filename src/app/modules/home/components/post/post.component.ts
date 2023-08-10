@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {PostBriefDto} from "../../../../api/network-api";
 
 @Component({
   selector: 'div[app-post]',
@@ -7,9 +8,6 @@ import {Component, Input} from '@angular/core';
 })
 export class PostComponent {
   @Input() isLiked: boolean = false;
-
-  input(ta: HTMLTextAreaElement) {
-    ta.style.height = 'auto';
-    ta.style.height = ta.scrollHeight + 'px';
-  }
+  @Input() post: PostBriefDto = {};
 }
+

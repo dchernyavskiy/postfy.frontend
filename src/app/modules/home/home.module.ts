@@ -8,6 +8,7 @@ import {AngularSvgIconModule} from "angular-svg-icon";
 import { PostComponent } from './components/post/post.component';
 import { CommentComponent } from './components/post/comment/comment.component';
 import { SlideComponent } from './components/post/slide/slide.component';
+import {SharedModule} from "../shared/shared.module";
 
 
 @NgModule({
@@ -18,11 +19,12 @@ import { SlideComponent } from './components/post/slide/slide.component';
     CommentComponent,
     SlideComponent
   ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    AngularSvgIconModule,
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        AngularSvgIconModule,
+        SharedModule,
+    ]
 })
 export class HomeModule {
 }

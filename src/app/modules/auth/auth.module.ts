@@ -6,6 +6,7 @@ import { AuthComponent } from './auth.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import {AngularSvgIconModule} from "angular-svg-icon";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {AngularSvgIconModule} from "angular-svg-icon";
   imports: [
     CommonModule,
     AuthRoutingModule,
-    AngularSvgIconModule
+    AngularSvgIconModule,
+    FormsModule
   ]
 })
 export class AuthModule { }
