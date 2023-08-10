@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {NetworkApiClient} from "../../api/network-api";
-import {PostService} from "../../core/services/post.service";
-import {IdentityApiClient} from "../../api/identity-api";
+import {PostService} from "../../../../core/services/post.service";
 
 @Component({
   selector: 'app-home',

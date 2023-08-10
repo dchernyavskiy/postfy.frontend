@@ -8,7 +8,7 @@ import {AngularSvgIconModule} from "angular-svg-icon";
 import { PostComponent } from './components/post/post.component';
 import { CommentComponent } from './components/post/comment/comment.component';
 import { SlideComponent } from './components/post/slide/slide.component';
-import {SharedModule} from "../shared/shared.module";
+import {SharedModule} from "../../../shared/shared.module";
 
 
 @NgModule({
