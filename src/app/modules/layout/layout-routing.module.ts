@@ -7,8 +7,8 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     pathMatch: 'full',
-    loadChildren: () => import('../content/content.module').then((m) => m.ContentModule)
-  },
+    loadChildren: () => import('../home/home.module').then((m) => m.HomeModule)
+  }
 ];
 
 @NgModule({
