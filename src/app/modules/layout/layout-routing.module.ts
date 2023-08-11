@@ -5,14 +5,9 @@ import {LayoutComponent} from "./layout.component";
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'app'
-  },
-  {
-    path: 'app',
     component: LayoutComponent,
-    loadChildren: () => import('../content/content.module').then(m => m.ContentModule)
-
+    pathMatch: 'full',
+    loadChildren: () => import('../home/home.module').then((m) => m.HomeModule)
   }
 ];
 
