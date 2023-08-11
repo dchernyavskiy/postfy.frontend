@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {PostBriefDto} from "../../../../api/network-api";
+import {PostBriefDto} from "../../../../../api/network-api";
 
 @Component({
   selector: 'div[app-post]',

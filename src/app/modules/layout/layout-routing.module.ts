@@ -5,9 +5,16 @@ import {LayoutComponent} from "./layout.component";
 const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
     pathMatch: 'full',
-    loadChildren: () => import('../home/home.module').then((m) => m.HomeModule)
+    redirectTo: 'app'
+  },
+  {
+    path: 'app',
+    component: LayoutComponent,
+    children: [
+      {path: '', pathMatch: 'full', redirectTo: 'home'},
+      {path: 'home', loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule)}
+    ]
   }
 ];
 
