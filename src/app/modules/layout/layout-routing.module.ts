@@ -5,9 +5,14 @@ import {LayoutComponent} from "./layout.component";
 const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
     pathMatch: 'full',
-    loadChildren: () => import('../home/home.module').then((m) => m.HomeModule)
+    redirectTo: 'app'
+  },
+  {
+    path: 'app',
+    component: LayoutComponent,
+    loadChildren: () => import('../content/content.module').then(m => m.ContentModule)
+
   }
 ];
 
