@@ -6,8 +6,9 @@
     <a href="profile.html"> <img src="https://picsum.photos/200
 " alt="" class="w-9 h-9 rounded-full"> </a>
     <div class="flex-1">
-      <a href="profile.html"><h4 class="text-black dark:text-white"> Monroe Parker </h4></a>
-      <div class="text-xs text-gray-500 dark:text-white/80"> 2 hours ago</div>
+      <a href="profile.html"><h4
+        class="text-black dark:text-white"> {{post.user?.firstName!}} {{post.user?.lastName!}}</h4></a>
+      <div class="text-xs text-gray-500 dark:text-white/80"> {{post.created! | relativeTime}}</div>
     </div>
 
     <div class="-mr-1 group relative">
@@ -60,27 +61,29 @@
   </div>
 
   <!-- post image -->
-  <div app-slide class="relative w-full z-0 lg:h-72 h-full sm:px-4"
-       [images]="[
-'https://picsum.photos/id/1/400',
+  <div class="flex flex-col space-y-2">
 
-]"
+    <div app-slide class="relative w-full z-0 lg:h-72 h-full sm:px-4"
+         [images]="post.medias!"
 
-  >
-
+    >
+    </div>
+    <span class="sm:p-4 p-2.5">
+      {{post.caption!}}
+    </span>
   </div>
 
   <!-- post icons -->
   <div class="sm:p-4 p-2.5 flex items-center gap-4 text-xs font-semibold">
     <div class="flex items-center gap-2.5">
       <button type="button"
-              (click)="isLiked = !isLiked"
+              (click)="post.isLiked"
               class="p-1 rounded-3xl text-red-500 bg-red-100 dark:bg-slate-700 hover:bg-slate-100 transition-colors duration-300">
         <svg-icon class="text-lg md fill-red-500 "
-                  [src]="isLiked ? 'assets/icons/solid/heart-s.svg' : 'assets/icons/solid/heart.svg'"
+                  [src]="post.isLiked ? 'assets/icons/solid/heart-s.svg' : 'assets/icons/solid/heart.svg'"
         ></svg-icon>
       </button>
-      <a href="#">1,380</a>
+      <a href="#">{{post.likeCount}}</a>
     </div>
     <div class="flex items-center gap-3">
       <button type="button"
@@ -89,7 +92,7 @@
                   src="assets/icons/solid/message-circle.svg"
         ></svg-icon>
       </button>
-      <a href="#">1,380</a>
+      <a href="#">{{post.commentCount}}</a>
     </div>
     <button type="button" class="button__ico ml-auto">
       <svg-icon class="text-xl md hydrated" name="paper-plane-outline" role="img"
@@ -102,8 +105,7 @@
 
   <!-- comments -->
   <div class="sm:p-4 p-2.5 border-t border-gray-100 font-normal space-y-3 relative dark:border-slate-700/40">
-    <div app-comment></div>
-    <div app-comment></div>
+    <div app-comment *ngFor="let comment of post.comments!" [comment]="comment"></div>
 
     <button type="button" class="flex items-center gap-1.5 text-gray-500 hover:text-blue-500 mt-2">
       <svg-icon src="assets/icons/solid/chevron-down.svg"

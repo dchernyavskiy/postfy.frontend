@@ -7,7 +7,6 @@ import {PostBriefDto} from "../../../../../api/network-api";
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent {
-  @Input() isLiked: boolean = false;
   @Input() post: PostBriefDto = {};
 }
 

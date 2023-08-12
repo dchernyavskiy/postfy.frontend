@@ -12,7 +12,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { ClientBase } from './client-base';
+import {ClientBase} from "./client-base";
 
 export const NETWORK_API_BASE_URL = new InjectionToken<string>('NETWORK_API_BASE_URL');
 
@@ -1367,7 +1367,9 @@ export interface PostBriefDto {
     user?: UserDto;
     isLiked?: boolean;
     likeCount?: number;
-    commentLike?: number;
+    commentCount?: number;
+    created?: Date;
+    comments?: Comment[] | undefined;
 }
 
 export interface PostBriefDtoListResultModel {
