@@ -5,10 +5,11 @@ import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home.component';
 import {StoriesComponent} from "./components/stories/stories.component";
 import {AngularSvgIconModule} from "angular-svg-icon";
-import { PostComponent } from './components/post/post.component';
-import { CommentComponent } from './components/post/comment/comment.component';
-import { SlideComponent } from './components/post/slide/slide.component';
-import {SharedModule} from "../shared/shared.module";
+import {PostComponent} from './components/post/post.component';
+import {CommentComponent} from './components/post/comment/comment.component';
+import {SlideComponent} from './components/post/slide/slide.component';
+import {SharedModule} from "../../shared/shared.module";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 
 @NgModule({
@@ -19,12 +20,13 @@ import {SharedModule} from "../shared/shared.module";
     CommentComponent,
     SlideComponent
   ],
-    imports: [
-        CommonModule,
-        HomeRoutingModule,
-        AngularSvgIconModule,
-        SharedModule,
-    ]
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    AngularSvgIconModule,
+    SharedModule,
+    InfiniteScrollModule,
+  ]
 })
 export class HomeModule {
 }

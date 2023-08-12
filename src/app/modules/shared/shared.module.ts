@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { ModalWindowComponent } from './modal-window/modal-window.component';
 import {AngularSvgIconModule} from "angular-svg-icon";
 import {FormsModule} from "@angular/forms";
+import { RelativeTimePipe } from './pipes/relative-time.pipe';
 
 
 
 @NgModule({
     declarations: [
-        ModalWindowComponent
+        ModalWindowComponent,
+        RelativeTimePipe
     ],
-    exports: [
-        ModalWindowComponent
-    ],
+  exports: [
+    ModalWindowComponent,
+    RelativeTimePipe
+  ],
   imports: [
     CommonModule,
     AngularSvgIconModule,

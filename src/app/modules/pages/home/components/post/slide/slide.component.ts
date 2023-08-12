@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {of} from "rxjs";
+import {MediaBriefDto} from "../../../../../../api/network-api";
 
 @Component({
   selector: 'div[app-slide]',
@@ -10,7 +11,7 @@ export class SlideComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Input() images: any[] = [];
+  @Input() images: MediaBriefDto[] = [];
   @Input() limit: number = 1;
   @Input() offset: number = 0;
 
