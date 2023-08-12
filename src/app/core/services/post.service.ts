@@ -9,6 +9,12 @@ export class PostService {
   constructor(private readonly networkApiClient: NetworkApiClient) {
   }
 
+  likePost(postId: string) {
+    return this.networkApiClient.likePost({
+      postId: postId
+    })
+  }
+
   getFeed(includes: string[] | undefined, filters: FilterModel[] | undefined, sorts: string[] | undefined, page: number | undefined, pageSize: number | undefined) {
     return this.networkApiClient.getFeed(
       includes,

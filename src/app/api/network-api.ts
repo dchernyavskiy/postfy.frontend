@@ -12,7 +12,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import {ClientBase} from "./client-base";
+import { ClientBase } from './client-base';
 
 export const NETWORK_API_BASE_URL = new InjectionToken<string>('NETWORK_API_BASE_URL');
 
@@ -1362,6 +1362,7 @@ export interface Post {
 }
 
 export interface PostBriefDto {
+    id?: string;
     caption?: string | undefined;
     medias?: MediaBriefDto[] | undefined;
     user?: UserDto;

@@ -18,21 +18,24 @@ export class HomeComponent {
 
 
   constructor(private readonly postService: PostService) {
-    this.getFeed()
+    this.getFeed(10)
   }
 
-  getFeed() {
+  getFeed(pageSize: number) {
     this.postService.getFeed(
       undefined,
       undefined,
       undefined,
       ++this.page,
-      this.pageSize
+      pageSize
     ).subscribe(res => {
       console.log(res)
       this.isRequestSending = false;
       this.totalItems = res.body?.totalItems!
-      this.items.push(...res.body?.items!)
+      for (const post of res.body?.items!) {
+        this.items.push(post)
+      }
+      // this.items.push(...res.body?.items!)
     })
   }
 
@@ -42,9 +45,10 @@ export class HomeComponent {
     if (target) {
       const rect = target.getBoundingClientRect()
       const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
+
       if (isVisible && this.items.length < this.totalItems && !this.isRequestSending) {
         this.isRequestSending = true
-        this.getFeed()
+        this.getFeed(this.pageSize)
       }
     }
   }
