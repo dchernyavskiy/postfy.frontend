@@ -6,7 +6,9 @@
        (wheel)="onScroll($event)"
   >
 
-    <div app-post *ngFor="let post of items" [post]="post"></div>
+    <div app-post *ngFor="let post of items"
+         (unfollow)="reloadFeed()"
+         [post]="post"></div>
 
     <!-- placeholder -->
     <div id="post-placeholder"

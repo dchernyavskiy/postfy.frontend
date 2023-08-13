@@ -52,4 +52,9 @@ export class HomeComponent {
       }
     }
   }
+
+  reloadFeed() {
+    this.items = []
+    this.getFeed(10)
+  }
 }
