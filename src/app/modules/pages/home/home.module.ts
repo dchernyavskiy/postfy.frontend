@@ -10,6 +10,7 @@ import {CommentComponent} from './components/post/comment/comment.component';
 import {SlideComponent} from './components/post/slide/slide.component';
 import {SharedModule} from "../../shared/shared.module";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
     AngularSvgIconModule,
     SharedModule,
     InfiniteScrollModule,
+    FormsModule,
   ]
 })
 export class HomeModule {

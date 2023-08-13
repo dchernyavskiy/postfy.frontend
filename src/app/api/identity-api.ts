@@ -12,7 +12,7 @@ import {mergeMap as _observableMergeMap, catchError as _observableCatch} from 'r
 import {Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf} from 'rxjs';
 import {Injectable, Inject, Optional, InjectionToken} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse, HttpResponseBase} from '@angular/common/http';
-import {ClientBase} from './client-base';
+import {ClientBase} from "./client-base";
 
 export const IDENTITY_API_BASE_URL = new InjectionToken<string>('IDENTITY_API_BASE_URL');
 
@@ -680,80 +680,6 @@ export class IdentityApiClient extends ClientBase {
   }
 
   /**
-   * Refreshing Token
-   * @return Success
-   */
-  refreshToken(body: RefreshTokenRequest): Observable<RefreshTokenResponse> {
-    let url_ = this.baseUrl + "/api/v1/identity/refresh-token";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: "response",
-      responseType: "blob",
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      })
-    };
-
-    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-      return this.http.request("post", url_, transformedOptions_);
-    })).pipe(_observableMergeMap((response_: any) => {
-      return this.processRefreshToken(response_);
-    })).pipe(_observableCatch((response_: any) => {
-      if (response_ instanceof HttpResponseBase) {
-        try {
-          return this.processRefreshToken(response_ as any);
-        } catch (e) {
-          return _observableThrow(e) as any as Observable<RefreshTokenResponse>;
-        }
-      } else
-        return _observableThrow(response_) as any as Observable<RefreshTokenResponse>;
-    }));
-  }
-
-  protected processRefreshToken(response: HttpResponseBase): Observable<RefreshTokenResponse> {
-    const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse ? response.body :
-        (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-    let _headers: any = {};
-    if (response.headers) {
-      for (let key of response.headers.keys()) {
-        _headers[key] = response.headers.get(key);
-      }
-    }
-    if (status === 200) {
-      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        let result200: any = null;
-        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RefreshTokenResponse;
-        return _observableOf(result200);
-      }));
-    } else if (status === 404) {
-      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        let result404: any = null;
-        result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
-        return throwException("Not Found", status, _responseText, _headers, result404);
-      }));
-    } else if (status === 400) {
-      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        let result400: any = null;
-        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
-        return throwException("Bad Request", status, _responseText, _headers, result400);
-      }));
-    } else if (status !== 200 && status !== 204) {
-      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-      }));
-    }
-    return _observableOf(null as any);
-  }
-
-  /**
    * Revoking Refresh Token
    * @return No Content
    */
@@ -948,6 +874,81 @@ export class IdentityApiClient extends ClientBase {
         let result401: any = null;
         result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
         return throwException("Client error", status, _responseText, _headers, result401);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * RefreshToken
+   * @param body (optional)
+   * @return Success
+   */
+  refreshToken(body: RefreshTokenRequest | undefined): Observable<RefreshTokenResponse> {
+    let url_ = this.baseUrl + "/api/v1/identity/refresh-token";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json-patch+json",
+        "Accept": "text/plain"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("post", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processRefreshToken(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processRefreshToken(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<RefreshTokenResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<RefreshTokenResponse>;
+    }));
+  }
+
+  protected processRefreshToken(response: HttpResponseBase): Observable<RefreshTokenResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RefreshTokenResponse;
+        return _observableOf(result200);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Not Found", status, _responseText, _headers, result404);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Bad Request", status, _responseText, _headers, result400);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
