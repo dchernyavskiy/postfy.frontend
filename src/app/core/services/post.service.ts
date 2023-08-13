@@ -36,6 +36,10 @@ export class PostService {
     );
   }
 
+  getPost(id:string){
+    return this.networkApiClient.getPost(id)
+  }
+
   // createPost(body: CreatePost) {
   //   return this.networkApiClient.createPost();
   // }

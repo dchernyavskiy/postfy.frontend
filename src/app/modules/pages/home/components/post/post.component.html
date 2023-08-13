@@ -1,3 +1,4 @@
+<script src="../../../post/post.component.ts"></script>
 <script src="slide/slide.component.ts"></script>
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium border1 dark:bg-dark2">
 
@@ -20,33 +21,33 @@
         <nav class="py-2 flex flex-col space-y-1">
           <button
             (click)="savePost(post.id!)"
-             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">
+            class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">
             <svg-icon class="text-xl shrink-0 md "
                       src="assets/icons/solid/bookmark.svg"
             ></svg-icon>
             <span>Add to favorites</span>
           </button>
-<!--          <a href="#"-->
-<!--             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">-->
-<!--            <svg-icon class="text-xl shrink-0 md "-->
-<!--                      src="assets/icons/solid/bell-off.svg"-->
-<!--            ></svg-icon>-->
-<!--            <span>Mute Notification</span>-->
-<!--          </a>-->
-<!--          <a href="#"-->
-<!--             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">-->
-<!--            <svg-icon class="text-xl shrink-0 md "-->
-<!--                      src="assets/icons/solid/flag.svg"-->
-<!--            ></svg-icon>-->
-<!--            <span>Report This Post</span>-->
-<!--          </a>-->
-<!--          <a href="#"-->
-<!--             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">-->
-<!--            <svg-icon class="text-xl shrink-0 md "-->
-<!--                      src="assets/icons/solid/share.svg"-->
-<!--            ></svg-icon>-->
-<!--            <span>Share Your Profile</span>-->
-<!--          </a>-->
+          <!--          <a href="#"-->
+          <!--             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">-->
+          <!--            <svg-icon class="text-xl shrink-0 md "-->
+          <!--                      src="assets/icons/solid/bell-off.svg"-->
+          <!--            ></svg-icon>-->
+          <!--            <span>Mute Notification</span>-->
+          <!--          </a>-->
+          <!--          <a href="#"-->
+          <!--             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">-->
+          <!--            <svg-icon class="text-xl shrink-0 md "-->
+          <!--                      src="assets/icons/solid/flag.svg"-->
+          <!--            ></svg-icon>-->
+          <!--            <span>Report This Post</span>-->
+          <!--          </a>-->
+          <!--          <a href="#"-->
+          <!--             class="flex flex-row space-x-2 hover:bg-slate-100 px-4 py-2  rounded-md transition-colors duration-500">-->
+          <!--            <svg-icon class="text-xl shrink-0 md "-->
+          <!--                      src="assets/icons/solid/share.svg"-->
+          <!--            ></svg-icon>-->
+          <!--            <span>Share Your Profile</span>-->
+          <!--          </a>-->
 
           <hr>
           <button
@@ -69,9 +70,9 @@
          [images]="post.medias!"
     >
     </div>
-    <span class="sm:p-4 p-2.5">
+    <a [routerLink]="['/app', 'posts', post.id]" class="sm:p-4 p-2.5">
       {{post.caption!}}
-    </span>
+    </a>
   </div>
 
   <!-- post icons -->
@@ -84,7 +85,7 @@
                   [src]="post.isLiked ? 'assets/icons/solid/heart-s.svg' : 'assets/icons/solid/heart.svg'"
         ></svg-icon>
       </button>
-      <a >{{post.likeCount}}</a>
+      <a>{{post.likeCount}}</a>
     </div>
     <div class="flex items-center gap-3">
       <button type="button"
@@ -93,7 +94,7 @@
                   src="assets/icons/solid/message-circle.svg"
         ></svg-icon>
       </button>
-      <a >{{post.commentCount}}</a>
+      <a>{{post.commentCount}}</a>
     </div>
     <button type="button" class="button__ico ml-auto">
       <svg-icon class="text-xl md hydrated" role="img"

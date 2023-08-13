@@ -51,7 +51,7 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/user.svg',
         label: 'Profile',
-        route: '',
+        route: '/app/profile',
       },
     ]
   }
