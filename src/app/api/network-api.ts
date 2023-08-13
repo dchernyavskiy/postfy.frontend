@@ -1072,6 +1072,76 @@ export class NetworkApiClient extends ClientBase {
     }
 
     /**
+     * GetProfile
+     * @param userId (optional)
+     * @return Success
+     */
+    getProfile(userId: string | undefined): Observable<GetProfileResponse> {
+        let url_ = this.baseUrl + "/api/v1/network/users/profile?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "UserId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetProfile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProfile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetProfileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetProfileResponse>;
+        }));
+    }
+
+    protected processGetProfile(response: HttpResponseBase): Observable<GetProfileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetProfileResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * LikePost
      * @param body (optional)
      * @return Created
@@ -1520,6 +1590,10 @@ export interface GetPostsResponse {
     body?: PostBriefDtoListResultModel;
 }
 
+export interface GetProfileResponse {
+    user?: UserDto;
+}
+
 export interface LikePost {
     postId?: string;
 }
@@ -1577,7 +1651,7 @@ export interface PostBriefDto {
     id?: string;
     caption?: string | undefined;
     medias?: MediaBriefDto[] | undefined;
-    user?: UserDto;
+    user?: UserBriefDto;
     isLiked?: boolean;
     likeCount?: number;
     commentCount?: number;
@@ -1596,7 +1670,7 @@ export interface PostDto {
     id?: string;
     caption?: string | undefined;
     medias?: MediaBriefDto[] | undefined;
-    user?: UserDto;
+    user?: UserBriefDto;
     isLiked?: boolean;
     likeCount?: number;
     commentCount?: number;
@@ -1675,12 +1749,23 @@ export interface User {
     comments?: Comment[] | undefined;
 }
 
-export interface UserDto {
+export interface UserBriefDto {
     id?: string;
     firstName?: string | undefined;
     lastName?: string | undefined;
     profileName?: string | undefined;
     profileImage?: Media;
+}
+
+export interface UserDto {
+    id?: string;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    profileName?: string | undefined;
+    profileImage?: MediaBriefDto;
+    postCount?: number;
+    followerCount?: number;
+    followingCount?: number;
 }
 
 export interface FileParameter {

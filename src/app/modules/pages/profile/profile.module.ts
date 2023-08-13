@@ -5,12 +5,14 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import {AngularSvgIconModule} from "angular-svg-icon";
 import { PostComponent } from './post/post.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    PostComponent
+    PostComponent,
+    MyProfileComponent
   ],
   imports: [
     CommonModule,

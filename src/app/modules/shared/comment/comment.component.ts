@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Comment} from "../../../../../../api/network-api";
+import {Comment} from "../../../api/network-api";
 
 @Component({
   selector: 'div[app-comment]',

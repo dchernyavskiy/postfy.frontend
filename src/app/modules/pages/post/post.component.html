@@ -1,10 +1,11 @@
+<script src="../home/components/post/post.component.ts"></script>
 <div class="flex w-full h-full flex-col justify-center">
   <div class="flex w-full p-2 rounded-md flex-row bg-white">
-    <app-carousel class="relative w-3/5 z-0 lg:h-72 h-full sm:px-4"
+    <app-carousel class="relative my-auto w-3/5 z-0 lg:h-72 h-full sm:px-4"
                   [images]="post.medias!">
     </app-carousel>
 
-    <div class="w-2/5 flex-col flex">
+    <div class="w-2/5 flex-col flex my-auto">
       <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
         <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img [src]="post.user?.profileImage?.url!" alt=""
                                                                     class="w-9 h-9 rounded-full"> </a>
@@ -70,6 +71,35 @@
         </button>
         <button type="button" class="button__ico">
           <svg-icon class="text-xl md hydrated" role="img" aria-label="share outline"></svg-icon>
+        </button>
+      </div>
+      <hr>
+      <ng-container *ngIf="post.comments?.length! > 0; else noComments">
+        <div class="relative overflow-y-scroll  p-2 flex flex-col space-y-1 max-h-[300px]">
+          <div app-comment *ngFor="let comment of post.comments" [comment]="comment"></div>
+        </div>
+      </ng-container>
+      <ng-template #noComments>
+        <div class="p-2 self-center font-semibold ">
+          No comments yet.
+        </div>
+      </ng-template>
+      <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1 dark:border-slate-700/40">
+
+        <img src="https://picsum.photos/200" alt="" class="w-6 h-6 rounded-full">
+
+        <div class="flex-1 relative overflow-hidden h-10">
+          <textarea
+            name="text"
+            [(ngModel)]="createComment.text"
+            placeholder="Add Comment...."
+            rows="1"
+            class="w-full h-auto resize-none ring-0 !bg-transparent px-4 py-2 focus:!border-transparent focus:ring-0 focus:ring-offset-0 focus:outline-none"
+          ></textarea>
+        </div>
+        <button type="submit"
+                (click)="sendComment()"
+                class="text-sm rounded-full py-1.5 px-3.5 bg-secondery"> Replay
         </button>
       </div>
     </div>

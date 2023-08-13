@@ -7,7 +7,7 @@
     <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img [src]="post.user?.profileImage?.url!" alt=""
                                                                 class="w-9 h-9 rounded-full"> </a>
     <div class="flex-1">
-      <a [routerLink]="['/app', 'users', post.user?.id!]"><h4
+      <a [routerLink]="['/app', 'profile', post.user?.id!]"><h4
         class="text-black dark:text-white"> {{post.user?.firstName!}} {{post.user?.lastName!}}</h4></a>
       <div class="text-xs text-gray-500 dark:text-white/80"> {{post.created! | relativeTime}}</div>
     </div>
@@ -66,10 +66,10 @@
   <!-- post image -->
   <div class="flex flex-col space-y-2">
 
-    <div app-slide class="relative w-full z-0 lg:h-72 h-full sm:px-4"
-         [images]="post.medias!"
+    <app-carousel class="relative w-full z-0 lg:h-72 h-full sm:px-4"
+                  [images]="post.medias!"
     >
-    </div>
+    </app-carousel>
     <a [routerLink]="['/app', 'posts', post.id]" class="sm:p-4 p-2.5">
       {{post.caption!}}
     </a>

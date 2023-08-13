@@ -5,6 +5,7 @@ import { PostRoutingModule } from './post-routing.module';
 import { PostComponent } from './post.component';
 import {SharedModule} from "../../shared/shared.module";
 import {AngularSvgIconModule} from "angular-svg-icon";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import {AngularSvgIconModule} from "angular-svg-icon";
     CommonModule,
     PostRoutingModule,
     SharedModule,
-    AngularSvgIconModule
+    AngularSvgIconModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class PostModule { }
