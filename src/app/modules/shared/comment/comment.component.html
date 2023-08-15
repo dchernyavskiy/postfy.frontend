@@ -1,9 +1,9 @@
 <div class="flex items-start gap-3 relative">
-  <a href="profile.html">
+  <a [routerLink]="['/app', 'profile', comment.user?.id!]">
     <img [src]="comment.user?.profileImage?.url!" alt=""
          class="w-6 h-6 mt-1 rounded-full"> </a>
   <div class="flex-1">
-    <a href="profile.html"
+    <a [routerLink]="['/app', 'profile', comment.user?.id!]"
        class="text-black font-medium inline-block dark:text-white"> {{comment.user?.firstName!}} {{comment.user?.lastName!}} </a>
     <p class="mt-0.5">{{comment.text}}</p>
   </div>

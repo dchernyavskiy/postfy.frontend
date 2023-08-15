@@ -1763,6 +1763,7 @@ export interface UserDto {
     lastName?: string | undefined;
     profileName?: string | undefined;
     profileImage?: MediaBriefDto;
+    isFollowed?: boolean;
     postCount?: number;
     followerCount?: number;
     followingCount?: number;

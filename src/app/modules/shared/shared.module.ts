@@ -6,6 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {RelativeTimePipe} from './pipes/relative-time.pipe';
 import {CarouselComponent} from './carousel/carousel.component';
 import {CommentComponent} from "./comment/comment.component";
+import {RouterLink} from "@angular/router";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {CommentComponent} from "./comment/comment.component";
   imports: [
     CommonModule,
     AngularSvgIconModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ]
 })
 export class SharedModule {

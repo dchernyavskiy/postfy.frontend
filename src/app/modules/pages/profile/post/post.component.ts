@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {PostBriefDto} from "../../../../api/network-api";
 
 @Component({
@@ -6,6 +6,11 @@ import {PostBriefDto} from "../../../../api/network-api";
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent {
+export class PostComponent implements AfterViewInit {
   @Input() post: PostBriefDto = {};
+
+  ngAfterViewInit(): void {
+    console.log(this.post)
+  }
+
 }

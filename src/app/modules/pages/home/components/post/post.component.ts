@@ -19,7 +19,6 @@ export class PostComponent implements OnInit {
 
   likePost(id: string) {
     this.postService.likePost(id).subscribe(res => {
-      console.log(res)
       this.post.isLiked = !this.post.isLiked
       if (this.post.isLiked) {
         this.post.likeCount!++;
@@ -45,7 +44,8 @@ export class PostComponent implements OnInit {
   getPost() {
     this.networkApiClient.getPost(this.post.id!).subscribe(res => {
       this.commentSubject$.next({isCommentLoading: false, isLoaded: true})
-      this.post = res.body!;
+      // this.post = res.body!;
+      this.post.comments = res.body?.comments;
     })
   }
 
@@ -59,13 +59,13 @@ export class PostComponent implements OnInit {
   }
 
   unfollowUser(id: string) {
-    this.networkApiClient.unfollowUser({userId:id}).subscribe(res =>{
+    this.networkApiClient.unfollowUser({userId: id}).subscribe(res => {
       this.unfollow.emit()
     })
   }
 
   savePost(id: string) {
-    this.networkApiClient.savePost({postId:id}).subscribe(res =>{
+    this.networkApiClient.savePost({postId: id}).subscribe(res => {
       console.log(res)
     })
   }

@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {PostService} from "../../../core/services/post.service";
 import {NetworkApiClient, PostBriefDto, UserDto} from "../../../api/network-api";
 import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../../../core/services/auth.service";
 
 @Component({
   selector: 'app-profile',
@@ -16,13 +17,13 @@ export class ProfileComponent {
   user: UserDto = {};
   totalItems: number = 0;
 
-  constructor(private readonly postService: PostService, private readonly networkApiClient: NetworkApiClient, private readonly route: ActivatedRoute) {
+  constructor(private readonly postService: PostService, private readonly authService: AuthService, private readonly networkApiClient: NetworkApiClient, private readonly route: ActivatedRoute) {
     route.params.subscribe(res => {
       this.id = res['id']
-      console.log(this.id)
       this.networkApiClient.getProfile(this.id).subscribe(res => {
         this.user = res.user!
       })
+      this.isMyProfile = Boolean(this.authService.getUserId())
       this.getPosts()
     })
   }
@@ -43,6 +44,7 @@ export class ProfileComponent {
   }
 
   isRequestSending = false;
+  @Input() isMyProfile: boolean = false;
 
   onScroll(event: any) {
     const target = document.getElementById('post-placeholder')
@@ -54,6 +56,20 @@ export class ProfileComponent {
         this.isRequestSending = true
         this.getPosts()
       }
+    }
+  }
+
+  follow() {
+    if (this.user.isFollowed) {
+      this.networkApiClient.unfollowUser({userId: this.user.id}).subscribe(res => {
+        this.user.isFollowed = false
+        console.log(res)
+      })
+    } else {
+      this.networkApiClient.followUser({userId: this.user.id}).subscribe(res => {
+        this.user.isFollowed = true
+        console.log(res)
+      })
     }
   }
 }

@@ -31,6 +31,10 @@ export class AuthService {
     return localStorage.getItem(this._token)
   }
 
+  getUserId(){
+    return localStorage.getItem(this._userId)
+  }
+
   login(userNameOrEmail: string, password: string) {
     console.log(userNameOrEmail)
     console.log(password)

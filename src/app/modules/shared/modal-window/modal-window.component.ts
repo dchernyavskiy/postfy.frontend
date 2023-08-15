@@ -38,6 +38,7 @@ export class ModalWindowComponent {
       this.caption,
       files
     ).subscribe((response) => {
+      this.isHidden$.next(true)
       console.log(response)
     })
     // this.networkApiClient
