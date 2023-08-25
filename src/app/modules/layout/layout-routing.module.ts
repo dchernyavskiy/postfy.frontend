@@ -16,6 +16,7 @@ const routes: Routes = [
       {path: 'home', loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule)},
       {path: 'profile', loadChildren: () => import('../pages/profile/profile.module').then((m) => m.ProfileModule)},
       {path: 'posts', loadChildren: () => import('../pages/post/post.module').then((m) => m.PostModule)},
+      {path: 'chats', loadChildren: () => import('../pages/chats/chats.module').then((m) => m.ChatsModule)},
     ]
   }
 ];

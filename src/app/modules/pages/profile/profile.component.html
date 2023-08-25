@@ -155,5 +155,8 @@
            class="w-full lg:h-60 h-full aspect-[3/3] bg-slate-200/60 rounded-lg dark:bg-dark2 animate-pulse"
            style="opacity: 0;"></div>
     </div>
+    <div *ngIf="items.length == 0" class="flex flex-col justify-center items-center my-auto h-full font-semibold text-gray-600">
+      There are no posts yet.
+    </div>
   </div>
 </div>

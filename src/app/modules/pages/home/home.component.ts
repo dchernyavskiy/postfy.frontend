@@ -41,6 +41,7 @@ export class HomeComponent {
 
 
   onScroll(event: any) {
+    console.log(event)
     const target = document.getElementById('post-placeholder')
     if (target) {
       const rect = target.getBoundingClientRect()

@@ -28,7 +28,7 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/message-circle.svg',
         label: 'Messages',
-        route: '',
+        route: '/app/chats',
       },
       {
         icon: 'assets/icons/solid/shopping-bag.svg',
