@@ -51,7 +51,9 @@
                   class="px-4 py-2 rounded-md font-semibold text-sm bg-pink-100 text-pink-600 border border-pink-200">
             {{user.isFollowed ? 'Unfallow' : 'Follow'}}
           </button>
-          <button type="submit" class="px-4 py-2 rounded-md font-semibold text-sm bg-pink-600 text-white">Message
+          <button type="submit"
+                  (click)="redirectToChat()"
+                  class="px-4 py-2 rounded-md font-semibold text-sm bg-pink-600 text-white">Message
           </button>
           <div class="group relative">
             <button type="submit" class="rounded-lg bg-slate-200/60 flex px-2 py-1.5 dark:bg-dark2" aria-haspopup="true"

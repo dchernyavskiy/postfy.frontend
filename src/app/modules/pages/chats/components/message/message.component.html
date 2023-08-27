@@ -1,16 +1,16 @@
 <div class="flex gap-3"
-     [ngClass]="{'flex-row-reverse items-end': isSent}"
+     [ngClass]="{'flex-row-reverse items-end': message.isWrittenByYou}"
 >
-  <img src="https://picsum.photos/200"
-       *ngIf="!isSent"
-       class="w-9 h-9 rounded-full shadow">
+  <img
+    *ngIf="!message.user?.profileImage?.url"
+    class="w-9 h-9 rounded-full shadow">
   <div
     class="px-4 py-2 rounded-[20px] max-w-sm"
-    *ngIf="!isMedia"
-    [ngClass]="{'bg-gray-100': !isSent, 'bg-gradient-to-tr from-sky-500 to-blue-500 text-white shadow': isSent}"
-  > {{text}}
+    *ngIf="message.text?.length! > 0"
+    [ngClass]="{'bg-gray-100': !message.isWrittenByYou, 'bg-gradient-to-tr from-sky-500 to-blue-500 text-white shadow': message.isWrittenByYou}"
+  > {{message.text}}
   </div>
-  <div *ngIf="isMedia"
+  <div *ngIf="message.isPost"
        class="flex gap-2 flex-row-reverse items-end">
 
     <a class="block rounded-[18px] border overflow-hidden" href="#">

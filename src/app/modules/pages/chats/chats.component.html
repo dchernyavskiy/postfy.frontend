@@ -26,18 +26,18 @@
                   class="md:w-[270px] w-full absolute bg-white rounded-2xl border-[1px] px-2 -left-1/2 top-1/2 z-50 hidden group-hover:block"
                 >
                   <nav>
-                    <a href="#">
-                      <svg-icon class="text-2xl shrink-0 -ml-1 md hydrated" name="checkmark-outline" role="img"
-                                aria-label="checkmark outline"></svg-icon>
-                      Mark all as read </a>
-                    <a href="#">
-                      <svg-icon class="text-2xl shrink-0 -ml-1 md hydrated" name="notifications-outline" role="img"
-                                aria-label="notifications outline"></svg-icon>
-                      notifications setting </a>
-                    <a href="#">
-                      <svg-icon class="text-xl shrink-0 -ml-1 md hydrated" name="volume-mute-outline" role="img"
-                                aria-label="volume mute outline"></svg-icon>
-                      Mute notifications </a>
+                    <!--                    <a href="#">-->
+                    <!--                      <svg-icon class="text-2xl shrink-0 -ml-1 md hydrated" name="checkmark-outline" role="img"-->
+                    <!--                                aria-label="checkmark outline"></svg-icon>-->
+                    <!--                      Mark all as read </a>-->
+                    <!--                    <a href="#">-->
+                    <!--                      <svg-icon class="text-2xl shrink-0 -ml-1 md hydrated" name="notifications-outline" role="img"-->
+                    <!--                                aria-label="notifications outline"></svg-icon>-->
+                    <!--                      notifications setting </a>-->
+                    <!--                    <a href="#">-->
+                    <!--                      <svg-icon class="text-xl shrink-0 -ml-1 md hydrated" name="volume-mute-outline" role="img"-->
+                    <!--                                aria-label="volume mute outline"></svg-icon>-->
+                    <!--                      Mute notifications </a>-->
                   </nav>
                 </div>
                 <button class="">
@@ -59,40 +59,29 @@
 
 
           <!-- users list -->
-          <div class="space-y-2 p-2 overflow-y-auto h-[calc(100vh-127px)]">
+          <div class="space-y-2 p-2 overflow-y-auto h-[calc(100vh-127px)]"
 
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
-            <app-user></app-user>
+          >
+
+            <app-user [chat]="chat" *ngFor="let chat of chats">
+
+            </app-user>
+            <div *ngIf="chats.length == 0"
+                 class="w-full h-full flex flex-col items-center justify-center text-center m-auto font-semibold text-gray-500">
+              No chats yet.
+            </div>
+
           </div>
-
         </div>
       </div>
 
       <!-- message center -->
-      <div class="flex-1">
+      <div
+        *ngIf="!chat"
+        class="flex flex-col w-full h-full m-auto justify-center items-center text-center font-semibold text-gray-500">
+        Chat not selected.
+      </div>
+      <div *ngIf="chat" class="flex-1">
 
         <!-- chat heading -->
         <div
@@ -110,11 +99,11 @@
 
             <div class="relative cursor-pointer max-md:hidden" uk-toggle="target: .rightt ; cls: hidden" tabindex="0"
                  aria-expanded="true">
-              <img src="https://picsum.photos/200" alt="" class="w-8 h-8 rounded-full shadow">
+              <img [src]="chat.guest?.profileImage?.url" alt="" class="w-8 h-8 rounded-full shadow">
               <div class="w-2 h-2 bg-teal-500 rounded-full absolute right-0 bottom-0 m-px"></div>
             </div>
             <div class="cursor-pointer">
-              <div class="text-base font-bold"> Monroe Parker</div>
+              <div class="text-base font-bold"> {{chat.guest?.firstName}} {{chat.guest?.lastName}}</div>
               <div class="text-xs text-green-500 font-semibold"> Online</div>
             </div>
 
@@ -152,23 +141,24 @@
         <div class="w-full p-5 py-10 overflow-y-auto md:h-[calc(100vh-137px)] h-[calc(100vh-250px)]">
 
           <div class="py-10 text-center text-sm lg:pt-8">
-            <img src="https://picsum.photos/200" class="w-24 h-24 rounded-full mx-auto mb-3" alt="">
+            <img [src]="chat.guest?.profileImage?.url" class="w-24 h-24 rounded-full mx-auto mb-3" alt="">
             <div class="mt-8">
-              <div class="md:text-xl text-base font-medium text-black dark:text-white"> Monroe Parker</div>
-              <div class="text-gray-500 text-sm   dark:text-white/80"> @Monroepark</div>
+              <div
+                class="md:text-xl text-base font-medium text-black dark:text-white"> {{chat.guest?.firstName}} {{chat.guest?.lastName}}</div>
+              <div class="text-gray-500 text-sm   dark:text-white/80"> @{{chat.guest?.profileName}}</div>
             </div>
             <div class="mt-3.5">
-              <a href="profile.html" class="inline-block bg-gray-100 rounded-lg px-4 py-1.5 text-sm font-semibold">View
+              <a [routerLink]="['/app', 'chats', chat.guest?.id]"
+                 class="inline-block bg-gray-100 rounded-lg px-4 py-1.5 text-sm font-semibold">View
                 profile</a>
             </div>
           </div>
 
           <div class="flex flex-col text-sm font-medium space-y-6">
 
-            <app-message [isSent]="false" [text]="'Hi, I’m John'"></app-message>
-            <app-message [isSent]="true" [text]="'I’m Lisa. welcome John'"></app-message>
-            <app-message [isSent]="true" [isMedia]="true"></app-message>
-            <app-message [isSent]="false" [isMedia]="true"></app-message>
+            <app-message *ngFor="let message of chat.messages"
+                         [message]="message"
+            ></app-message>
 
             <!-- sent media-->
           </div>
@@ -256,16 +246,24 @@
 
           </div>
 
-          <div class="relative flex-1">
-            <textarea placeholder="Write your message" rows="1"
+          <form class="relative flex-1">
+            <textarea placeholder="Write your message"
+                      rows="1"
+                      name="create-message"
+                      [(ngModel)]="createMessage.text"
                       class="w-full resize-none bg-secondery rounded-full px-4 p-2"></textarea>
 
-            <button type="button" class="text-white shrink-0 p-2 absolute right-0.5 top-0">
-              <svg-icon class="text-xl flex md hydrated" name="send-outline" role="img"
+            <button type="button"
+                    (click)="sendMessage()"
+                    class="text-white shrink-0 p-2 absolute right-0.5 top-0
+            hover:animate-pulse">
+              <svg-icon class="text-gray-500 "
+                        src="assets/icons/solid/send.svg"
+                        role="img"
                         aria-label="send outline"></svg-icon>
             </button>
 
-          </div>
+          </form>
 
           <button type="button" class="flex h-full dark:text-white">
             <svg-icon class="text-3xl flex -mt-3 md hydrated" name="heart-outline" role="img"

@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {ChatBriefDto} from "../../../../../api/network-api";
 
 @Component({
   selector: 'app-user',
@@ -8,4 +9,5 @@ import {Component, Input} from '@angular/core';
 export class UserComponent {
   @Input() isOnline: boolean = false;
   @Input() isLastMessageRead: boolean = false;
+  @Input() chat: ChatBriefDto = {};
 }

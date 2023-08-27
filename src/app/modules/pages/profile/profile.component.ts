@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {PostService} from "../../../core/services/post.service";
 import {NetworkApiClient, PostBriefDto, UserDto} from "../../../api/network-api";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../core/services/auth.service";
 
 @Component({
@@ -12,18 +12,22 @@ import {AuthService} from "../../../core/services/auth.service";
 export class ProfileComponent {
   page: number = 0;
   pageSize: number = 12;
-  items: PostBriefDto[] = [];
   id: string = '';
   user: UserDto = {};
   totalItems: number = 0;
+  items: PostBriefDto[] = [];
 
-  constructor(private readonly postService: PostService, private readonly authService: AuthService, private readonly networkApiClient: NetworkApiClient, private readonly route: ActivatedRoute) {
+  constructor(private readonly postService: PostService,
+              private readonly authService: AuthService,
+              private readonly networkApiClient: NetworkApiClient,
+              private readonly router: Router,
+              private readonly route: ActivatedRoute) {
     route.params.subscribe(res => {
       this.id = res['id']
       this.networkApiClient.getProfile(this.id).subscribe(res => {
         this.user = res.user!
       })
-      this.isMyProfile = Boolean(this.authService.getUserId())
+      this.isMyProfile = !Boolean(this.id)
       this.getPosts()
     })
   }
@@ -71,5 +75,14 @@ export class ProfileComponent {
         console.log(res)
       })
     }
+  }
+
+  redirectToChat() {
+    this.networkApiClient.getOrCreateChat({
+      userIds: [this.user.id!]
+    }).subscribe(res => {
+      console.log(res)
+      this.router.navigate(['/app', 'chats', res.chat?.id!])
+    })
   }
 }
