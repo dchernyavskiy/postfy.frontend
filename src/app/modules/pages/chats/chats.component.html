@@ -93,7 +93,7 @@
             <button type="button"
                     class="md:hidden"
                     aria-expanded="true">
-              <svg-icon name="chevron-back-outline" class="text-2xl -ml-4 md hydrated" role="img"
+              <svg-icon class="text-2xl -ml-4 md hydrated" role="img"
                         aria-label="chevron back outline"></svg-icon>
             </button>
 
@@ -138,7 +138,7 @@
         </div>
 
         <!-- chats bubble -->
-        <div class="w-full p-5 py-10 overflow-y-auto md:h-[calc(100vh-137px)] h-[calc(100vh-250px)]">
+        <div #messages class="w-full p-5 py-10 overflow-y-scroll md:h-[calc(100vh-137px)] h-[calc(100vh-250px)]">
 
           <div class="py-10 text-center text-sm lg:pt-8">
             <img [src]="chat.guest?.profileImage?.url" class="w-24 h-24 rounded-full mx-auto mb-3" alt="">
@@ -182,23 +182,27 @@
                 <button type="button"
                         class="bg-sky-50 text-sky-600 border border-sky-100 shadow-sm p-2.5 rounded-full shrink-0 duration-100 hover:scale-[1.15] dark:bg-dark3 dark:border-0"
                         style="opacity: 0;">
-                  <svg-icon class="text-3xl flex md hydrated" name="image" role="img" aria-label="image"></svg-icon>
+                  <svg-icon class="text-3xl flex md hydrated"
+                            role="img" aria-label="image"></svg-icon>
                 </button>
                 <button type="button"
                         class="bg-green-50 text-green-600 border border-green-100 shadow-sm p-2.5 rounded-full shrink-0 duration-100 hover:scale-[1.15] dark:bg-dark3 dark:border-0"
                         style="opacity: 0;">
-                  <svg-icon class="text-3xl flex md hydrated" name="images" role="img" aria-label="images"></svg-icon>
+                  <svg-icon class="text-3xl flex md hydrated"
+                            role="img" aria-label="images"></svg-icon>
                 </button>
                 <button type="button"
                         class="bg-pink-50 text-pink-600 border border-pink-100 shadow-sm p-2.5 rounded-full shrink-0 duration-100 hover:scale-[1.15] dark:bg-dark3 dark:border-0"
                         style="opacity: 0;">
-                  <svg-icon class="text-3xl flex md hydrated" name="document-text" role="img"
+                  <svg-icon class="text-3xl flex md hydrated"
+                            role="img"
                             aria-label="document text"></svg-icon>
                 </button>
                 <button type="button"
                         class="bg-orange-50 text-orange-600 border border-orange-100 shadow-sm p-2.5 rounded-full shrink-0 duration-100 hover:scale-[1.15] dark:bg-dark3 dark:border-0"
                         style="opacity: 0;">
-                  <svg-icon class="text-3xl flex md hydrated" name="gift" role="img" aria-label="gift"></svg-icon>
+                  <svg-icon class="text-3xl flex md hydrated"
+                            role="img" aria-label="gift"></svg-icon>
                 </button>
               </div>
             </div>
@@ -266,7 +270,9 @@
           </form>
 
           <button type="button" class="flex h-full dark:text-white">
-            <svg-icon class="text-3xl flex -mt-3 md hydrated" name="heart-outline" role="img"
+            <svg-icon class="text-3xl flex -mt-3 md hydrated"
+
+                      role="img"
                       aria-label="heart outline"></svg-icon>
           </button>
 
