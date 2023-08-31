@@ -10,7 +10,6 @@ export class PostComponent implements AfterViewInit {
   @Input() post: PostBriefDto = {};
 
   ngAfterViewInit(): void {
-    console.log(this.post)
   }
 
 }

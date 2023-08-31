@@ -27,18 +27,12 @@ export class ChatsComponent implements OnDestroy, AfterViewChecked {
       this.createMessage.chatId = id;
       if (id) {
         this.networkApiClient.getChat(id).subscribe(res => {
-          console.log(this.chat)
           this.chat = res.chat
           this.hubConnection.start().then(
             _ => {
-              console.log('Connection started')
               this.hubConnection.invoke("JoinToChat", this.chat?.id!).then(data => {
-                console.log('in join')
-                console.log(data)
               })
               this.hubConnection.on("ReceiveMessage", (data: MessageBriefDto) => {
-                console.log('in receive message callback')
-                console.log(data)
                 this.chat?.messages?.push(data)
               })
             }
@@ -48,7 +42,6 @@ export class ChatsComponent implements OnDestroy, AfterViewChecked {
     })
 
     this.networkApiClient.getChats({}).subscribe(res => {
-      console.log(res)
       this.chats = res.chat!
     })
   }
@@ -59,19 +52,21 @@ export class ChatsComponent implements OnDestroy, AfterViewChecked {
 
   ngOnDestroy(): void {
     this.hubConnection.stop().then(_ => {
-      console.log('Connection closed')
     })
 
   }
 
   scrollToBottom() {
-    this.messages.nativeElement.scrollTop = this.messages.nativeElement.scrollHeight;
+    try {
+      this.messages.nativeElement.scrollTop = this.messages.nativeElement.scrollHeight;
+    } catch (e) {
+
+    }
   }
 
   sendMessage() {
 
     this.networkApiClient.createMessage(this.createMessage).subscribe(res => {
-      console.log(res)
       this.createMessage.text = '';
       this.hubConnection.send('SendMessageAsync', this.chat?.id, res.message)
       this.chat?.messages?.push({

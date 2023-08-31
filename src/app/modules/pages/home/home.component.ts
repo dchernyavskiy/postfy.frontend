@@ -29,7 +29,6 @@ export class HomeComponent {
       ++this.page,
       pageSize
     ).subscribe(res => {
-      console.log(res)
       this.isRequestSending = false;
       this.totalItems = res.body?.totalItems!
       for (const post of res.body?.items!) {
@@ -41,7 +40,6 @@ export class HomeComponent {
 
 
   onScroll(event: any) {
-    console.log(event)
     const target = document.getElementById('post-placeholder')
     if (target) {
       const rect = target.getBoundingClientRect()

@@ -36,8 +36,6 @@ export class AuthService {
   }
 
   login(userNameOrEmail: string, password: string) {
-    console.log(userNameOrEmail)
-    console.log(password)
     return this.identityApiClient.login({
       userNameOrEmail: userNameOrEmail,
       password: password,

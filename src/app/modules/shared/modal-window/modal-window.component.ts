@@ -33,13 +33,11 @@ export class ModalWindowComponent {
       return {data: file, fileName: file.name} as FileParameter
     })
     // this.networkApiClient.createPost({caption: 'fdsfasdf'}).subscribe(res => {
-    //   console.log(res)})
     this.networkApiClient.createPost(
       this.caption,
       files
     ).subscribe((response) => {
       this.isHidden$.next(true)
-      console.log(response)
     })
     // this.networkApiClient
     //   .uploadMedia(files)
@@ -48,7 +46,6 @@ export class ModalWindowComponent {
     //     this.createPost.medias = res.medias
     //     return this.networkApiClient.createPost(this.createPost)
     //   })).subscribe(res => {
-    //   console.log(res)
     // })
   }
 }

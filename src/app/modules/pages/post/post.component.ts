@@ -24,7 +24,6 @@ export class PostComponent {
 
   likePost(id: string) {
     this.postService.likePost(id).subscribe(res => {
-      console.log(res)
       this.post.isLiked = !this.post.isLiked
       if (this.post.isLiked) {
         this.post.likeCount!++;
@@ -62,7 +61,6 @@ export class PostComponent {
 
   savePost(id: string) {
     this.networkApiClient.savePost({postId: id}).subscribe(res => {
-      console.log(res)
     })
   }
 }

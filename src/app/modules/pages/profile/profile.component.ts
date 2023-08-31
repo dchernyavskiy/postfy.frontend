@@ -43,7 +43,6 @@ export class ProfileComponent {
     ).subscribe(res => {
       this.items.push(...res.body?.items!);
       this.totalItems = res.body?.totalItems!;
-      console.log(this.items)
     })
   }
 
@@ -67,12 +66,10 @@ export class ProfileComponent {
     if (this.user.isFollowed) {
       this.networkApiClient.unfollowUser({userId: this.user.id}).subscribe(res => {
         this.user.isFollowed = false
-        console.log(res)
       })
     } else {
       this.networkApiClient.followUser({userId: this.user.id}).subscribe(res => {
         this.user.isFollowed = true
-        console.log(res)
       })
     }
   }
@@ -81,7 +78,6 @@ export class ProfileComponent {
     this.networkApiClient.getOrCreateChat({
       userIds: [this.user.id!]
     }).subscribe(res => {
-      console.log(res)
       this.router.navigate(['/app', 'chats', res.chat?.id!])
     })
   }

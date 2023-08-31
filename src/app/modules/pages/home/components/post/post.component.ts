@@ -66,7 +66,6 @@ export class PostComponent implements OnInit {
 
   savePost(id: string) {
     this.networkApiClient.savePost({postId: id}).subscribe(res => {
-      console.log(res)
     })
   }
 }

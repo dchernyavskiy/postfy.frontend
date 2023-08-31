@@ -25,7 +25,7 @@ import {SharedModule} from "./modules/shared/shared.module";
   ],
   providers: [
     {provide: IDENTITY_API_BASE_URL, useValue: environment.apiUrl},
-    {provide: NETWORK_API_BASE_URL, useValue: environment.apiUrl},
+    {provide: NETWORK_API_BASE_URL, useValue: environment.networkApiUrl},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
