@@ -1,0 +1,29 @@
+<div class="flex gap-3"
+     [ngClass]="{'flex-row-reverse items-end': message.isWrittenByYou}"
+>
+  <img
+    *ngIf="!message.user?.profileImage?.url"
+    class="w-9 h-9 rounded-full shadow">
+  <div
+    class="px-4 py-2 rounded-[20px] max-w-sm"
+    *ngIf="message.text?.length! > 0"
+    [ngClass]="{'bg-gray-100': !message.isWrittenByYou, 'bg-gradient-to-tr from-sky-500 to-blue-500 text-white shadow': message.isWrittenByYou}"
+  > {{message.text}}
+  </div>
+  <div *ngIf="message.isPost"
+       class="flex gap-2 flex-row-reverse items-end">
+
+    <a class="block rounded-[18px] border overflow-hidden" href="#">
+      <div class="max-w-md">
+        <div class="max-w-full relative w-72">
+          <div class="relative" style="padding-bottom: 57.4286%">
+            <div class="w-full h-full absolute inset-0">
+              <img src="https://picsum.photos/200" alt=""
+                   class="block max-w-full max-h-52 w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
