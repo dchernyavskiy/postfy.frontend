@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {CreatePost, FileParameter, NetworkApiClient} from "../../../api/network-api";
-import {BehaviorSubject} from "rxjs";
+import {FileParameter, NetworkApiClient} from "../../../api/network-api";
+import {BehaviorSubject, map, mergeMap, switchMap,} from "rxjs";
 
 @Component({
   selector: 'app-modal-window',
@@ -8,7 +8,7 @@ import {BehaviorSubject} from "rxjs";
   styleUrls: ['./modal-window.component.scss']
 })
 export class ModalWindowComponent {
-  createPost: CreatePost = {}
+  caption = '';
   medias: File[] = [];
   previews: (string | ArrayBuffer | null)[] = [];
   @Input() isHidden$: BehaviorSubject<boolean> = new BehaviorSubject(true);
@@ -32,15 +32,20 @@ export class ModalWindowComponent {
     const files = Array.from(this.medias).map((file) => {
       return {data: file, fileName: file.name} as FileParameter
     })
-    this.networkApiClient.uploadMedia(
+    // this.networkApiClient.createPost({caption: 'fdsfasdf'}).subscribe(res => {
+    this.networkApiClient.createPost(
+      this.caption,
       files
-    ).subscribe(res => {
+    ).subscribe((response) => {
       this.isHidden$.next(true)
-      this.createPost.medias = res.medias
-      console.log(this.createPost)
-      this.networkApiClient.createPost(this.createPost).subscribe(res => {
-        console.log(res)
-      })
     })
+    // this.networkApiClient
+    //   .uploadMedia(files)
+    //   .pipe(mergeMap(res => {
+    //     this.isHidden$.next(true)
+    //     this.createPost.medias = res.medias
+    //     return this.networkApiClient.createPost(this.createPost)
+    //   })).subscribe(res => {
+    // })
   }
 }

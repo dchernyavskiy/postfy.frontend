@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Comment} from "../../../api/network-api";
 
 @Component({
   selector: 'div[app-comment]',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent {
-
+  @Input() comment: Comment = {};
 }

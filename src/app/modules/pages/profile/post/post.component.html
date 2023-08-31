@@ -1,0 +1,23 @@
+<a [routerLink]="['/app', 'posts', post.id!]" uk-toggle="" aria-expanded="false">
+  <div class="lg:hover:scale-105 group hover:shadow-lg hover:z-10 duration-500 delay-100">
+    <div class="relative overflow-hidden rounded-lg uk-transition-toggle">
+      <div class="relative w-full lg:h-60 h-full aspect-[3/3]">
+        <img [src]="post.medias![0].url" alt="" class="object-cover w-full h-full">
+      </div>
+      <div
+        class="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-500  inset-0 bg-white/5 backdrop-blur-sm uk-transition-fade">
+        <div class="flex items-center justify-center gap-4 text-white w-full h-full">
+          <div class="flex items-center gap-2">
+            <svg-icon
+              [src]="post.isLiked ?'assets/icons/solid/heart-s.svg' : 'assets/icons/solid/heart.svg'"></svg-icon>
+            {{post.likeCount}}
+          </div>
+          <div class="flex items-center gap-2">
+            <svg-icon src="assets/icons/solid/message-circle.svg"></svg-icon>
+            {{post.commentCount}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
