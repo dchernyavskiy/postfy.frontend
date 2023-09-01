@@ -3,7 +3,7 @@
   class="relative flex items-center gap-4 p-2 duration-200 rounded-xl hover:bg-secondery">
   <div class="relative w-14 h-14 shrink-0">
     <!--    src="https://picsum.photos/200"-->
-    <img [src]="chat.guest?.profileImage?.url"
+    <img [src]="chat.guest?.profileImage?.url |imagePlaceholder"
 
          alt="" class="object-cover w-full h-full rounded-full">
     <div

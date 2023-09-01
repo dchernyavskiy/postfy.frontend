@@ -8,6 +8,7 @@ import {CarouselComponent} from './carousel/carousel.component';
 import {CommentComponent} from "./comment/comment.component";
 import {RouterLink} from "@angular/router";
 import {CdkDrag} from "@angular/cdk/drag-drop";
+import { ImagePlaceholderPipe } from './pipes/image-placeholder.pipe';
 
 
 @NgModule({
@@ -16,12 +17,14 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
     RelativeTimePipe,
     CarouselComponent,
     CommentComponent,
+    ImagePlaceholderPipe,
   ],
   exports: [
     ModalWindowComponent,
     RelativeTimePipe,
     CarouselComponent,
     CommentComponent,
+    ImagePlaceholderPipe,
   ],
     imports: [
         CommonModule,

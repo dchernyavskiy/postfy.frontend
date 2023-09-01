@@ -7,7 +7,7 @@
 
     <div class="w-2/5 flex-col flex my-auto">
       <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
-        <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img [src]="post.user?.profileImage?.url!" alt=""
+        <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img [src]="post.user?.profileImage?.url | imagePlaceholder" alt=""
                                                                     class="w-9 h-9 rounded-full"> </a>
         <div class="flex-1">
           <a [routerLink]="['/app', 'profile', post.user?.id!]"><h4

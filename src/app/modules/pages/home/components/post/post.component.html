@@ -4,8 +4,10 @@
 
   <!-- post heading -->
   <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
-    <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img [src]="post.user?.profileImage?.url!" alt=""
-                                                                class="w-9 h-9 rounded-full"> </a>
+    <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img
+      [src]="post.user?.profileImage?.url | imagePlaceholder"
+      alt=""
+      class="w-9 h-9 rounded-full"> </a>
     <div class="flex-1">
       <a [routerLink]="['/app', 'profile', post.user?.id!]"><h4
         class="text-black dark:text-white"> {{post.user?.firstName!}} {{post.user?.lastName!}}</h4></a>

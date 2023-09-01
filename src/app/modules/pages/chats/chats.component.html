@@ -99,7 +99,7 @@
 
             <div class="relative cursor-pointer max-md:hidden" uk-toggle="target: .rightt ; cls: hidden" tabindex="0"
                  aria-expanded="true">
-              <img [src]="chat.guest?.profileImage?.url" alt="" class="w-8 h-8 rounded-full shadow">
+              <img [src]="chat.guest?.profileImage?.url | imagePlaceholder" alt="" class="w-8 h-8 rounded-full shadow">
               <div class="w-2 h-2 bg-teal-500 rounded-full absolute right-0 bottom-0 m-px"></div>
             </div>
             <div class="cursor-pointer">
@@ -141,7 +141,7 @@
         <div #messages class="w-full p-5 py-10 overflow-y-scroll md:h-[calc(100vh-137px)] h-[calc(100vh-250px)]">
 
           <div class="py-10 text-center text-sm lg:pt-8">
-            <img [src]="chat.guest?.profileImage?.url" class="w-24 h-24 rounded-full mx-auto mb-3" alt="">
+            <img [src]="chat.guest?.profileImage?.url | imagePlaceholder" class="w-24 h-24 rounded-full mx-auto mb-3" alt="">
             <div class="mt-8">
               <div
                 class="md:text-xl text-base font-medium text-black dark:text-white"> {{chat.guest?.firstName}} {{chat.guest?.lastName}}</div>
