@@ -7,6 +7,7 @@ import {RelativeTimePipe} from './pipes/relative-time.pipe';
 import {CarouselComponent} from './carousel/carousel.component';
 import {CommentComponent} from "./comment/comment.component";
 import {RouterLink} from "@angular/router";
+import {CdkDrag} from "@angular/cdk/drag-drop";
 
 
 @NgModule({
@@ -22,12 +23,13 @@ import {RouterLink} from "@angular/router";
     CarouselComponent,
     CommentComponent,
   ],
-  imports: [
-    CommonModule,
-    AngularSvgIconModule,
-    FormsModule,
-    RouterLink
-  ]
+    imports: [
+        CommonModule,
+        AngularSvgIconModule,
+        FormsModule,
+        RouterLink,
+        CdkDrag
+    ]
 })
 export class SharedModule {
 }
