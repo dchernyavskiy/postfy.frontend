@@ -250,15 +250,17 @@
 
           </div>
 
-          <form class="relative flex-1">
-            <textarea placeholder="Write your message"
-                      rows="1"
-                      name="create-message"
-                      [(ngModel)]="createMessage.text"
-                      class="w-full resize-none bg-secondery rounded-full px-4 p-2"></textarea>
-
-            <button type="button"
-                    (click)="sendMessage()"
+          <form class="relative flex-1" (submit)="sendMessage()">
+            <input placeholder="Write your message"
+                   type="text"
+                   name="create-message"
+                   required
+                   #text="ngModel"
+                   [(ngModel)]="createMessage.text"
+                   class="w-full resize-none bg-secondery rounded-full px-4 p-2">
+            <button type="submit"
+                    [ngClass]="{'hidden':text.errors}"
+                    [disabled]="text.errors && (text.dirty || text.touched)"
                     class="text-white shrink-0 p-2 absolute right-0.5 top-0
             hover:animate-pulse">
               <svg-icon class="text-gray-500 "
