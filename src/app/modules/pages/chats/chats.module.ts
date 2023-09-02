@@ -7,6 +7,7 @@ import {AngularSvgIconModule} from "angular-svg-icon";
 import { UserComponent } from './components/user/user.component';
 import { MessageComponent } from './components/message/message.component';
 import {FormsModule} from "@angular/forms";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {FormsModule} from "@angular/forms";
     CommonModule,
     ChatsRoutingModule,
     AngularSvgIconModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class ChatsModule { }

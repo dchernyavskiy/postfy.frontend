@@ -3,6 +3,7 @@
 >
   <img
     *ngIf="!message.user?.profileImage?.url"
+    [src]="message.user?.profileImage?.url  | imagePlaceholder"
     class="w-9 h-9 rounded-full shadow">
   <div
     class="px-4 py-2 rounded-[20px] max-w-sm"

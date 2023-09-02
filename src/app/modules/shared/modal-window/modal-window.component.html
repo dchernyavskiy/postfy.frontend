@@ -12,15 +12,28 @@
       <button class="text-blue-500 block justify-self-end" (click)="uploadFiles()">Create</button>
     </div>
     <ul class="min-h-[400px] w-full flex flex-col space-y-2 justify-center">
-      <li class="w-full h-full group relative">
-        <div class="grid grid-cols-3 grid-rows-3 gap-2 overflow-y-auto w-full">
-          <div class="relative max-w-full flex flex-row justify-center items-center" *ngFor="let preview of previews">
+      <li
+        (drop)="drop($event)"
+        (dragleave)="dragleave($event)"
+        (dragover)="dragover($event)"
+        (dragenter)="dragenter($event)"
+        draggable="true"
+        class="w-full h-full group relative">
+        <div class="grid grid-cols-3 grid-rows-3 gap-2 overflow-y-scroll w-full">
+          <div class="relative max-w-full
+                      flex flex-row justify-center items-center" *ngFor="let preview of previews">
             <img class="h-auto max-w-[100px]  rounded-lg" [src]="preview"/>
           </div>
         </div>
 
-        <form class="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center w-full h-full"
-              [ngClass]="{'hidden  opacity-80': previews.length != 0}"
+        <form
+
+          class="
+                 absolute top-0 left-0 right-0 bottom-0
+                 flex items-center justify-center
+                 w-full h-full
+"
+          [ngClass]="{'hidden': previews.length > 0 && !isDragging}"
         >
           <label for="dropzone-file"
                  class="flex flex-col items-center justify-center
@@ -30,7 +43,8 @@
                         bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100
                         dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600
 ">
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <div
+              class="flex flex-col items-center justify-center pt-5 pb-6">
               <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -40,7 +54,9 @@
                 class="font-semibold">Click to upload</span> or drag and drop</p>
               <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
             </div>
-            <input id="dropzone-file" (change)="fileSelected($event)" type="file" class="hidden" multiple/>
+            <input id="dropzone-file"
+                   (change)="fileSelected($event)"
+                   type="file" class="hidden" multiple/>
           </label>
         </form>
 
