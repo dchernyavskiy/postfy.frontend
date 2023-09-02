@@ -18,7 +18,7 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/search.svg',
         label: 'Search',
-        route: '',
+        route: '/app/search',
       },
       {
         icon: 'assets/icons/solid/compass.svg',
