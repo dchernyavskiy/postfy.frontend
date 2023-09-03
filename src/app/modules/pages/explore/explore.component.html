@@ -1,0 +1,59 @@
+<!-- search box -->
+<!--<div-->
+<!--  class="z-10 p-5 max-lg:!top-10 lg:rounded-bl-2xl lg:rounded-br-2xl shadow-md bg-slate-100/60 backdrop-blur-3xl dark:bg-slate-800/60 uk-sticky uk-active uk-sticky-below uk-sticky-fixed"-->
+<!--  uk-sticky="cls-inactive: invisible h-0; start: 200; animation: uk-animation-slide-top"-->
+<!--  #searchbox-->
+<!--  style="position: fixed; top: 0px; width: 895px;">-->
+
+<!--  <div class="relative">-->
+<!--    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"-->
+<!--         class="w-5 h-5 absolute left-3 bottom-1/2 translate-y-1/2">-->
+<!--      <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>-->
+<!--    </svg>-->
+<!--    <input type="text" placeholder="Search"-->
+<!--           class="!bg-white/20 w-full !pl-10 !py-2 border !border-gray-300 dark:!border-slate-500">-->
+<!--  </div>-->
+
+<!--</div>-->
+<!--<div class="uk-sticky-placeholder" style="height: 40px; width: 895px; margin: 0px;"></div>-->
+
+
+<div
+  app-infinite-scroll
+  [isBlocking$]="isScrollBlocking$"
+  [stopperId]="placeholder.id"
+  (scroll)="getPosts()"
+  [class]="'grid grid-cols-3 gap-3 mt-2'">
+
+  <div
+    *ngFor="let post of posts"
+    class="relative overflow-hidden rounded-lg uk-scrollspy-inview ">
+    <!--    [routerLink]="['/app', 'posts', post.id]"-->
+    <a
+      (click)="window.open('/app/posts/'+post.id)"
+      aria-expanded="false">
+      <div class="relative h-full w-full">
+        <img class="object-fill h-full w-full"
+
+             [src]="post.medias?.[0]?.url!" alt="">
+      </div>
+    </a>
+  </div>
+
+  <div id="placeholder1" #placeholder
+       class="w-full h-60 bg-slate-200/60 rounded-lg dark:bg-dark2 animate-pulse uk-scrollspy-inview " style=""></div>
+  <div id="placeholder2" #placeholder
+       class="w-full h-60 bg-slate-200/60 rounded-lg dark:bg-dark2 animate-pulse uk-scrollspy-inview " style=""></div>
+  <div id="placeholder3" #placeholder
+       class="w-full h-60 bg-slate-200/60 rounded-lg dark:bg-dark2 animate-pulse uk-scrollspy-inview " style=""></div>
+
+</div>
+
+<!--<app-post-modal-window-->
+<!--  [post]="bigPost"-->
+<!--  [isHidden$]="modalWindowService.isPostModalWindowHidden$"-->
+<!--&gt;-->
+
+<!--</app-post-modal-window>-->
+

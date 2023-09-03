@@ -1,4 +1,5 @@
 <div>
   <router-outlet></router-outlet>
 </div>
-<app-modal-window [isHidden$]="createPostModalWindowService.isHidden$"></app-modal-window>
+<app-create-post-modal-window
+  [isHidden$]="modalWindowService.isCreatePostModalWindowHidden$"></app-create-post-modal-window>

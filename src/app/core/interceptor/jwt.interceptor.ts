@@ -18,7 +18,6 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError(err => {
         if (err.status === 500) {
-          console.log('in if')
           this.authService.refreshToken().subscribe(res => {
             console.log(res)
           })
