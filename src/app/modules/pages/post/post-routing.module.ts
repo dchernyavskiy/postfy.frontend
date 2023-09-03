@@ -4,7 +4,8 @@ import {PostComponent} from "./post.component";
 import {PostResolver} from "./resolvers/post.resolver";
 
 const routes: Routes = [
-  {path: ':id', component: PostComponent, pathMatch: 'full', resolve: {post: PostResolver}}
+  {path: ':id', component: PostComponent, pathMatch: 'full'}
+  // {path: ':id', component: PostComponent, pathMatch: 'full', resolve: {post: PostResolver}}
 ];
 
 @NgModule({

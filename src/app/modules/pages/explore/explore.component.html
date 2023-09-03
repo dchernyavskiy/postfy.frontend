@@ -24,13 +24,14 @@
   [isBlocking$]="isScrollBlocking$"
   [stopperId]="placeholder.id"
   (scroll)="getPosts()"
-  [class]="'grid grid-cols-3 gap-3 '">
+  [class]="'grid grid-cols-3 gap-3 mt-2'">
 
   <div
     *ngFor="let post of posts"
     class="relative overflow-hidden rounded-lg uk-scrollspy-inview ">
+    <!--    [routerLink]="['/app', 'posts', post.id]"-->
     <a
-      [routerLink]="['/app', 'posts', post.id]"
+      (click)="window.open('/app/posts/'+post.id)"
       aria-expanded="false">
       <div class="relative h-full w-full">
         <img class="object-fill h-full w-full"
@@ -49,4 +50,10 @@
 
 </div>
 
+<!--<app-post-modal-window-->
+<!--  [post]="bigPost"-->
+<!--  [isHidden$]="modalWindowService.isPostModalWindowHidden$"-->
+<!--&gt;-->
+
+<!--</app-post-modal-window>-->
 

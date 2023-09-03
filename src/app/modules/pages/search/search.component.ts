@@ -16,7 +16,6 @@ export class SearchComponent {
   getUsers(query: string) {
     this.networkApiClient.searchUsers(query).subscribe(res => {
       this.users = res.users!;
-      console.log(res)
     })
   }
 }

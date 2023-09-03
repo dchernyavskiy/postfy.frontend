@@ -20,7 +20,6 @@ export class ExploreComponent {
   isScrollBlocking$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   getPosts() {
-    console.log('in getposts')
     this.networkApiClient.explorePosts(
       this.lastPostId,
       undefined,
@@ -35,4 +34,6 @@ export class ExploreComponent {
       this.isScrollBlocking$.next(res.body?.totalItems == this.posts.length);
     })
   }
+
+  protected readonly window = window;
 }
