@@ -9,6 +9,7 @@ import {CommentComponent} from "./comment/comment.component";
 import {RouterLink} from "@angular/router";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import { ImagePlaceholderPipe } from './pipes/image-placeholder.pipe';
+import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ImagePlaceholderPipe } from './pipes/image-placeholder.pipe';
     CarouselComponent,
     CommentComponent,
     ImagePlaceholderPipe,
+    InfiniteScrollComponent,
   ],
   exports: [
     ModalWindowComponent,
@@ -25,6 +27,7 @@ import { ImagePlaceholderPipe } from './pipes/image-placeholder.pipe';
     CarouselComponent,
     CommentComponent,
     ImagePlaceholderPipe,
+    InfiniteScrollComponent,
   ],
     imports: [
         CommonModule,

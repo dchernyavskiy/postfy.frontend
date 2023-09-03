@@ -44,7 +44,6 @@ export class HomeComponent {
     if (target) {
       const rect = target.getBoundingClientRect()
       const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
-
       if (isVisible && this.items.length < this.totalItems && !this.isRequestSending) {
         this.isRequestSending = true
         this.getFeed(this.pageSize)

@@ -23,7 +23,7 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/compass.svg',
         label: 'Explore',
-        route: '',
+        route: '/app/explore',
       },
       {
         icon: 'assets/icons/solid/message-circle.svg',
