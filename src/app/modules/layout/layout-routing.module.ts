@@ -17,6 +17,9 @@ const routes: Routes = [
       {path: 'profile', loadChildren: () => import('../pages/profile/profile.module').then((m) => m.ProfileModule)},
       {path: 'posts', loadChildren: () => import('../pages/post/post.module').then((m) => m.PostModule)},
       {path: 'chats', loadChildren: () => import('../pages/chats/chats.module').then((m) => m.ChatsModule)},
+      {path: 'search', loadChildren: () => import('../pages/search/search.module').then((m) => m.SearchModule)},
+      {path: 'explore', loadChildren: () => import('../pages/explore/explore.module').then((m) => m.ExploreModule)},
+      {path: 'people', loadChildren: () => import('../pages/people/people.module').then((m) => m.PeopleModule)},
     ]
   }
 ];

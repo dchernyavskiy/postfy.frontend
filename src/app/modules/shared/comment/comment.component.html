@@ -1,6 +1,6 @@
 <div class="flex items-start gap-3 relative">
   <a [routerLink]="['/app', 'profile', comment.user?.id!]">
-    <img [src]="comment.user?.profileImage?.url!" alt=""
+    <img [src]="comment.user?.profileImage?.url | imagePlaceholder" alt=""
          class="w-6 h-6 mt-1 rounded-full"> </a>
   <div class="flex-1">
     <a [routerLink]="['/app', 'profile', comment.user?.id!]"

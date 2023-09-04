@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {SubMenuItem} from "../../../../../core/models/menu.model";
-import {CreatePostModalWindowService} from "../../../../../core/services/create-post-modal-window.service";
+import {ModalWindowService} from "../../../../../core/services/modal-window.service";
 
 @Component({
   selector: 'div[app-menu]',
@@ -8,7 +8,7 @@ import {CreatePostModalWindowService} from "../../../../../core/services/create-
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  constructor(private readonly createPostModalWindowService: CreatePostModalWindowService) {
+  constructor(private readonly modalWindowService: ModalWindowService) {
     this.items = [
       {
         icon: 'assets/icons/solid/home.svg',
@@ -18,12 +18,12 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/search.svg',
         label: 'Search',
-        route: '',
+        route: '/app/search',
       },
       {
         icon: 'assets/icons/solid/compass.svg',
         label: 'Explore',
-        route: '',
+        route: '/app/explore',
       },
       {
         icon: 'assets/icons/solid/message-circle.svg',
@@ -38,14 +38,14 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/users.svg',
         label: 'People',
-        route: '',
+        route: '/app/people',
       },
       {
         icon: 'assets/icons/solid/plus-circle.svg',
         label: 'Create',
         route: '',
         onClick: () => {
-          this.createPostModalWindowService.isHidden$.next(false);
+          this.modalWindowService.isCreatePostModalWindowHidden$.next(false);
         }
       },
       {

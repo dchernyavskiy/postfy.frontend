@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {CreatePostModalWindowService} from "./core/services/create-post-modal-window.service";
+import {Component} from '@angular/core';
+import {ModalWindowService} from "./core/services/modal-window.service";
+
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,6 @@ import {CreatePostModalWindowService} from "./core/services/create-post-modal-wi
 export class AppComponent {
   title = 'postfy';
 
-  constructor(readonly createPostModalWindowService: CreatePostModalWindowService) {
+  constructor(readonly modalWindowService: ModalWindowService) {
   }
 }

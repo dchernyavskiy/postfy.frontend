@@ -979,6 +979,115 @@ export class NetworkApiClient extends ClientBase {
   }
 
   /**
+   * ExplorePosts
+   * @param lastPostId (optional)
+   * @param includes (optional)
+   * @param filters (optional)
+   * @param sorts (optional)
+   * @param page (optional)
+   * @param pageSize (optional)
+   * @return Success
+   */
+  explorePosts(lastPostId: string | undefined, includes: string[] | undefined, filters: FilterModel[] | undefined, sorts: string[] | undefined, page: number | undefined, pageSize: number | undefined): Observable<ExplorePostsResponse> {
+    let url_ = this.baseUrl + "/api/v1/network/posts/explore?";
+    if (lastPostId === null)
+      throw new Error("The parameter 'lastPostId' cannot be null.");
+    else if (lastPostId !== undefined)
+      url_ += "LastPostId=" + encodeURIComponent("" + lastPostId) + "&";
+    if (includes === null)
+      throw new Error("The parameter 'includes' cannot be null.");
+    else if (includes !== undefined)
+      includes && includes.forEach(item => {
+        url_ += "Includes=" + encodeURIComponent("" + item) + "&";
+      });
+    if (filters === null)
+      throw new Error("The parameter 'filters' cannot be null.");
+    else if (filters !== undefined)
+      filters && filters.forEach((item, index) => {
+        for (let attr in item)
+          if (item.hasOwnProperty(attr)) {
+            url_ += "Filters[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+          }
+      });
+    if (sorts === null)
+      throw new Error("The parameter 'sorts' cannot be null.");
+    else if (sorts !== undefined)
+      sorts && sorts.forEach(item => {
+        url_ += "Sorts=" + encodeURIComponent("" + item) + "&";
+      });
+    if (page === null)
+      throw new Error("The parameter 'page' cannot be null.");
+    else if (page !== undefined)
+      url_ += "Page=" + encodeURIComponent("" + page) + "&";
+    if (pageSize === null)
+      throw new Error("The parameter 'pageSize' cannot be null.");
+    else if (pageSize !== undefined)
+      url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "text/plain"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processExplorePosts(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processExplorePosts(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<ExplorePostsResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<ExplorePostsResponse>;
+    }));
+  }
+
+  protected processExplorePosts(response: HttpResponseBase): Observable<ExplorePostsResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ExplorePostsResponse;
+        return _observableOf(result200);
+      }));
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result401: any = null;
+        result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Unauthorized", status, _responseText, _headers, result401);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Bad Request", status, _responseText, _headers, result400);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
    * FollowUser
    * @param body (optional)
    * @return No Content
@@ -1233,6 +1342,214 @@ export class NetworkApiClient extends ClientBase {
   }
 
   /**
+   * GetFollowers
+   * @param includes (optional)
+   * @param filters (optional)
+   * @param sorts (optional)
+   * @param page (optional)
+   * @param pageSize (optional)
+   * @return Success
+   */
+  getFollowers(includes: string[] | undefined, filters: FilterModel[] | undefined, sorts: string[] | undefined, page: number | undefined, pageSize: number | undefined): Observable<GetFollowersResponse> {
+    let url_ = this.baseUrl + "/api/v1/network/users/followers?";
+    if (includes === null)
+      throw new Error("The parameter 'includes' cannot be null.");
+    else if (includes !== undefined)
+      includes && includes.forEach(item => {
+        url_ += "Includes=" + encodeURIComponent("" + item) + "&";
+      });
+    if (filters === null)
+      throw new Error("The parameter 'filters' cannot be null.");
+    else if (filters !== undefined)
+      filters && filters.forEach((item, index) => {
+        for (let attr in item)
+          if (item.hasOwnProperty(attr)) {
+            url_ += "Filters[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+          }
+      });
+    if (sorts === null)
+      throw new Error("The parameter 'sorts' cannot be null.");
+    else if (sorts !== undefined)
+      sorts && sorts.forEach(item => {
+        url_ += "Sorts=" + encodeURIComponent("" + item) + "&";
+      });
+    if (page === null)
+      throw new Error("The parameter 'page' cannot be null.");
+    else if (page !== undefined)
+      url_ += "Page=" + encodeURIComponent("" + page) + "&";
+    if (pageSize === null)
+      throw new Error("The parameter 'pageSize' cannot be null.");
+    else if (pageSize !== undefined)
+      url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "text/plain"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processGetFollowers(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetFollowers(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<GetFollowersResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<GetFollowersResponse>;
+    }));
+  }
+
+  protected processGetFollowers(response: HttpResponseBase): Observable<GetFollowersResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetFollowersResponse;
+        return _observableOf(result200);
+      }));
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result401: any = null;
+        result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Unauthorized", status, _responseText, _headers, result401);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Bad Request", status, _responseText, _headers, result400);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * GetFollowings
+   * @param includes (optional)
+   * @param filters (optional)
+   * @param sorts (optional)
+   * @param page (optional)
+   * @param pageSize (optional)
+   * @return Success
+   */
+  getFollowings(includes: string[] | undefined, filters: FilterModel[] | undefined, sorts: string[] | undefined, page: number | undefined, pageSize: number | undefined): Observable<GetFollowingsResponse> {
+    let url_ = this.baseUrl + "/api/v1/network/users/followings?";
+    if (includes === null)
+      throw new Error("The parameter 'includes' cannot be null.");
+    else if (includes !== undefined)
+      includes && includes.forEach(item => {
+        url_ += "Includes=" + encodeURIComponent("" + item) + "&";
+      });
+    if (filters === null)
+      throw new Error("The parameter 'filters' cannot be null.");
+    else if (filters !== undefined)
+      filters && filters.forEach((item, index) => {
+        for (let attr in item)
+          if (item.hasOwnProperty(attr)) {
+            url_ += "Filters[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+          }
+      });
+    if (sorts === null)
+      throw new Error("The parameter 'sorts' cannot be null.");
+    else if (sorts !== undefined)
+      sorts && sorts.forEach(item => {
+        url_ += "Sorts=" + encodeURIComponent("" + item) + "&";
+      });
+    if (page === null)
+      throw new Error("The parameter 'page' cannot be null.");
+    else if (page !== undefined)
+      url_ += "Page=" + encodeURIComponent("" + page) + "&";
+    if (pageSize === null)
+      throw new Error("The parameter 'pageSize' cannot be null.");
+    else if (pageSize !== undefined)
+      url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "text/plain"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processGetFollowings(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetFollowings(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<GetFollowingsResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<GetFollowingsResponse>;
+    }));
+  }
+
+  protected processGetFollowings(response: HttpResponseBase): Observable<GetFollowingsResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetFollowingsResponse;
+        return _observableOf(result200);
+      }));
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result401: any = null;
+        result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Unauthorized", status, _responseText, _headers, result401);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Bad Request", status, _responseText, _headers, result400);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
    * GetOrCreateChat
    * @param body (optional)
    * @return Success
@@ -1462,6 +1779,110 @@ export class NetworkApiClient extends ClientBase {
   }
 
   /**
+   * GetSuggestions
+   * @param includes (optional)
+   * @param filters (optional)
+   * @param sorts (optional)
+   * @param page (optional)
+   * @param pageSize (optional)
+   * @return Success
+   */
+  getSuggestions(includes: string[] | undefined, filters: FilterModel[] | undefined, sorts: string[] | undefined, page: number | undefined, pageSize: number | undefined): Observable<GetSuggestionsResponse> {
+    let url_ = this.baseUrl + "/api/v1/network/users/suggestions?";
+    if (includes === null)
+      throw new Error("The parameter 'includes' cannot be null.");
+    else if (includes !== undefined)
+      includes && includes.forEach(item => {
+        url_ += "Includes=" + encodeURIComponent("" + item) + "&";
+      });
+    if (filters === null)
+      throw new Error("The parameter 'filters' cannot be null.");
+    else if (filters !== undefined)
+      filters && filters.forEach((item, index) => {
+        for (let attr in item)
+          if (item.hasOwnProperty(attr)) {
+            url_ += "Filters[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+          }
+      });
+    if (sorts === null)
+      throw new Error("The parameter 'sorts' cannot be null.");
+    else if (sorts !== undefined)
+      sorts && sorts.forEach(item => {
+        url_ += "Sorts=" + encodeURIComponent("" + item) + "&";
+      });
+    if (page === null)
+      throw new Error("The parameter 'page' cannot be null.");
+    else if (page !== undefined)
+      url_ += "Page=" + encodeURIComponent("" + page) + "&";
+    if (pageSize === null)
+      throw new Error("The parameter 'pageSize' cannot be null.");
+    else if (pageSize !== undefined)
+      url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "text/plain"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processGetSuggestions(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetSuggestions(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<GetSuggestionsResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<GetSuggestionsResponse>;
+    }));
+  }
+
+  protected processGetSuggestions(response: HttpResponseBase): Observable<GetSuggestionsResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetSuggestionsResponse;
+        return _observableOf(result200);
+      }));
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result401: any = null;
+        result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Unauthorized", status, _responseText, _headers, result401);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Bad Request", status, _responseText, _headers, result400);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
    * LikePost
    * @param body (optional)
    * @return Created
@@ -1590,6 +2011,81 @@ export class NetworkApiClient extends ClientBase {
         let result204: any = null;
         result204 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SavePostResponse;
         return _observableOf(result204);
+      }));
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result401: any = null;
+        result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Unauthorized", status, _responseText, _headers, result401);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StatusCodeProblemDetails;
+        return throwException("Bad Request", status, _responseText, _headers, result400);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * SearchUsers
+   * @param query (optional)
+   * @return Success
+   */
+  searchUsers(query: string | undefined): Observable<SearchUsersResponse> {
+    let url_ = this.baseUrl + "/api/v1/network/users/search?";
+    if (query === null)
+      throw new Error("The parameter 'query' cannot be null.");
+    else if (query !== undefined)
+      url_ += "query=" + encodeURIComponent("" + query) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "text/plain"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processSearchUsers(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processSearchUsers(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<SearchUsersResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<SearchUsersResponse>;
+    }));
+  }
+
+  protected processSearchUsers(response: HttpResponseBase): Observable<SearchUsersResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SearchUsersResponse;
+        return _observableOf(result200);
       }));
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1901,7 +2397,7 @@ export interface CreateMessage {
 }
 
 export interface CreateMessageResponse {
-  message?: Message;
+  message?: MessageBriefDto;
 }
 
 export interface CreatePostResponse {
@@ -1922,6 +2418,11 @@ export interface DeleteMessage {
 
 export interface DeletePost {
   id?: string;
+}
+
+export interface ExplorePostsResponse {
+  body?: PostBriefDtoListResultModel;
+  lastPostId?: string;
 }
 
 export interface FilterModel {
@@ -1953,6 +2454,14 @@ export interface GetFeedResponse {
   body?: PostBriefDtoListResultModel;
 }
 
+export interface GetFollowersResponse {
+  body?: UserBriefDtoWithFollowerCountListResultModel;
+}
+
+export interface GetFollowingsResponse {
+  body?: UserBriefDtoWithFollowerCountListResultModel;
+}
+
 export interface GetOrCreateChat {
   userIds?: string[] | undefined;
 }
@@ -1971,6 +2480,10 @@ export interface GetPostsResponse {
 
 export interface GetProfileResponse {
   user?: UserDto;
+}
+
+export interface GetSuggestionsResponse {
+  body?: UserBriefDtoWithFollowerCountListResultModel;
 }
 
 export interface LikePost {
@@ -2085,6 +2598,10 @@ export interface SavePost {
 export interface SavePostResponse {
 }
 
+export interface SearchUsersResponse {
+  users?: UserBriefDto[] | undefined;
+}
+
 export interface StatusCodeProblemDetails {
   type?: string | undefined;
   title?: string | undefined;
@@ -2152,6 +2669,23 @@ export interface UserBriefDto {
   lastName?: string | undefined;
   profileName?: string | undefined;
   profileImage?: MediaBriefDto;
+}
+
+export interface UserBriefDtoWithFollowerCount {
+  id?: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  profileName?: string | undefined;
+  profileImage?: MediaBriefDto;
+  followerCount?: number;
+  isFollowedByYou?: boolean;
+}
+
+export interface UserBriefDtoWithFollowerCountListResultModel {
+  items?: UserBriefDtoWithFollowerCount[] | undefined;
+  totalItems?: number;
+  page?: number;
+  pageSize?: number;
 }
 
 export interface UserDto {
