@@ -38,7 +38,7 @@ export class MenuComponent {
       {
         icon: 'assets/icons/solid/users.svg',
         label: 'People',
-        route: '',
+        route: '/app/people',
       },
       {
         icon: 'assets/icons/solid/plus-circle.svg',

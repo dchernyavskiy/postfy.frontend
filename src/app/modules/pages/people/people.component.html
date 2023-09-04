@@ -1,0 +1,197 @@
+<div class="max-w-3xl p-6 mx-auto min-w-[750px]">
+
+  <!-- heading title -->
+  <div>
+    <a href="#" class="mt-6 mb-3 flex flex-row font-semibold text-blue-500 space-x-2">
+      <svg-icon
+        src="assets/icons/solid/chevron-left.svg"
+        role="img" class="md hydrated" aria-label="chevron back outline"></svg-icon>
+      Back
+    </a>
+    <h1 class="font-bold text-2xl"> Peaples</h1>
+  </div>
+
+  <!-- tabs -->
+
+  <nav class="border-b dark:border-slate-700 uk-sticky"
+       uk-sticky="cls-active: bg-slate-100/60 z-30 backdrop-blur-lg px-4 ;  animation: uk-animation-slide-top" style="">
+
+    <ul
+      class="flex gap-5 text-sm text-center text-gray-600 capitalize font-semibold -mb-px dark:text-white/80 uk-tab">
+
+      <li class="uk-active"><a
+        class="inline-block cursor-pointer py-5 border-b-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+        #followers_nav
+        (click)="followings_nav.ariaExpanded='false';
+                 followers_nav.ariaExpanded='true';
+                 suggestions_nav.ariaExpanded='false';
+                 followers_list.style.display ='block';
+                 followings_list.style.display = 'none';
+                 suggestions_list.style.display = 'none';
+"
+        aria-expanded="true"> followers {{followerCount}} </a></li>
+      <li class=""><a
+        #followings_nav
+        (click)="followings_nav.ariaExpanded='true';
+                 followers_nav.ariaExpanded='false';
+                 suggestions_nav.ariaExpanded='false';
+                 followers_list.style.display ='none';
+                 followings_list.style.display = 'flex';
+                 suggestions_list.style.display = 'none';
+"
+        class="inline-block cursor-pointer py-5 border-b-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+        aria-expanded="false"> followings {{followingsCount}} </a></li>
+      <li class=""><a
+        #suggestions_nav
+        (click)="followings_nav.ariaExpanded='false';
+                 followers_nav.ariaExpanded='false';
+                 suggestions_nav.ariaExpanded='true';
+                 followers_list.style.display ='none';
+                 followings_list.style.display = 'none';
+                 suggestions_list.style.display = 'block';
+"
+        class="inline-block cursor-pointer py-5 border-b-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+        aria-expanded="false"> Suggestions </a></li>
+
+    </ul>
+  </nav>
+
+  <div class="uk-switcher mt-10" id="ttabs" style="touch-action: pan-y pinch-zoom;">
+    <!-- list  One -->
+    <div #followers_list class="">
+
+      <div class="grid sm:grid-cols-2 gap-2 mt-5 mb-2 text-xs font-normal text-gray-500 dark:text-white/80"
+           uk-scrollspy="target: > div; cls: uk-animation-scale-up; delay: 100">
+
+        <div
+          *ngFor="let follower of followers"
+          class="bg-white flex gap-4 items-center flex-wrap justify-between p-5 rounded-lg shadow-sm border1 dark:bg-dark2 uk-scrollspy-inview "
+          style="">
+          <a href="profile.html">
+            <img [src]="follower.profileImage?.url | imagePlaceholder" alt=""
+                 class="rounded-full lg:w-16 lg:h-16 w-10 h-10">
+          </a>
+          <div class="flex-1">
+            <a href="profile.html"><h4
+              class="font-semibold text-sm text-black dark:text-white"> {{follower.firstName}} {{follower.lastName}}</h4>
+            </a>
+            <div class="mt-0.5"> {{follower.followerCount}} followers</div>
+          </div>
+          <div class="flex flex-col space-y-2">
+            <button (click)="unfollow(follower)" type="button"
+                    class="button bg-slate-300 rounded-full py-1.5 px-3 font-semibold">
+              {{follower.isFollowedByYou ? 'Unfollow' : 'Follow'}}
+            </button>
+            <button (click)="message(follower)" type="button"
+                    class="button bg-slate-300 rounded-full py-1.5 px-3 font-semibold">Message
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="isThereMoreFollowers"
+           class="flex justify-center my-10">
+        <button
+          (click)="getFollowers()"
+          type="button" class="bg-white py-2 px-5 rounded-full shadow-md font-semibold text-sm dark:bg-dark2">Load
+          more...
+        </button>
+      </div>
+
+    </div>
+    <!-- list Two -->
+    <div #followings_list class="hidden flex-col space-y-2">
+
+      <div
+        *ngFor="let following of followings"
+        class="space-y-6 text-sm font-normal text-gray-500"
+        uk-scrollspy="target: > div; cls: uk-animation-slide-bottom-small; delay: 100 ">
+
+        <div class="flex items-center justify-between gap-4 uk-scrollspy-inview " style="">
+          <a href="profile.html">
+            <div class="relative w-12 h-12">
+              <img [src]="following.profileImage?.url | imagePlaceholder"
+                   class="object-cover w-full h-full rounded-full" alt="">
+            </div>
+          </a>
+          <div class="flex-1">
+            <a href="profile.html"><h4
+              class="text-base font-medium text-black dark:text-white"> {{following.firstName}} {{following.lastName}} </h4>
+            </a>
+            <p class="mt-0.5"> {{following.followerCount}} following </p>
+          </div>
+          <div class="flex gap-3">
+            <button type="button"
+                    (click)="follow(following)"
+                    class="px-4 py-2 rounded-md font-semibold text-sm bg-pink-100 text-pink-600 border border-pink-200">
+              <span class="max-md:hidden">Unfollow</span></button>
+            <button type="button"
+                    (click)="message(following)"
+                    class="px-4 py-2 rounded-md font-semibold text-sm bg-pink-600 text-white"><span
+              class="max-md:hidden"> Message </span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="isThereMoreFollowings" class="flex justify-center my-10">
+        <button type="button"
+                (click)="getFollowings()"
+                class="bg-white py-2 px-5 rounded-full shadow-md font-semibold text-sm dark:bg-dark2">Load
+          more...
+        </button>
+      </div>
+
+    </div>
+    <!-- list Three -->
+    <div #suggestions_list class="hidden">
+
+      <div
+        class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 text-xs font-normal text-gray-500 dark:text-white/80"
+        uk-scrollspy="target: > div; cls: uk-animation-scale-up; delay: 100">
+
+        <div
+          *ngFor="let suggestion of suggestions"
+          class="flex flex-col items-center shadow-sm p-2 rounded-xl bg-white border1 dark:bg-dark2 uk-scrollspy-inview "
+          style="">
+          <a [routerLink]="['/app', 'profile', suggestion.id]">
+            <div class="relative w-20 h-20 mx-auto mt-3">
+              <img [src]="suggestion.profileImage?.url | imagePlaceholder" alt=""
+                   class="h-full object-cover rounded-full shadow w-full">
+            </div>
+          </a>
+          <div class="mt-5 text-center w-full">
+            <a [routerLink]="['/app', 'profile', suggestion.id]"><h4
+              class="font-semibold text-sm text-black dark:text-white"> {{suggestion.firstName}} {{suggestion.lastName}}</h4>
+            </a>
+            <div class="mt-1"> {{suggestion.followerCount}} Followers</div>
+            <button type="button"
+                    (click)="followFromSuggestion(suggestion); followings_nav.click()"
+                    class="block font-semibold mt-4 py-1.5 rounded-lg text-[13px] w-full bg-slate-100/70 dark:bg-slate-700">
+              Follow
+            </button>
+
+            <button type="button"
+                    (click)="message(suggestion)"
+                    class="block font-semibold mt-4 py-1.5 rounded-lg text-[13px] w-full bg-slate-100/70 dark:bg-slate-700">
+              Message
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="isThereMoreSuggestions"
+           class="flex justify-center my-10">
+        <button
+          (click)="getSuggestions()"
+          type="button" class="bg-white py-2 px-5 rounded-full shadow-md font-semibold text-sm dark:bg-dark2">Load
+          more...
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
