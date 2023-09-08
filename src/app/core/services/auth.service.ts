@@ -51,6 +51,12 @@ export class AuthService {
       catchError(err => of(false)))
   }
 
+  logout() {
+    return this.identityApiClient.logout(undefined!).pipe(map(_ => {
+      this.unsetup();
+    }));
+  }
+
   private setup(response: LoginResponse) {
     localStorage.setItem(this._token, response.accessToken!)
     localStorage.setItem(this._refreshToken, response.accessToken!)
@@ -58,6 +64,15 @@ export class AuthService {
     localStorage.setItem(this._lastName, response.lastName!)
     localStorage.setItem(this._username, response.username!)
     localStorage.setItem(this._userId, response.userId!)
+  }
+
+  private unsetup() {
+    localStorage.setItem(this._token, '')
+    localStorage.setItem(this._refreshToken, '')
+    localStorage.setItem(this._firstName, '')
+    localStorage.setItem(this._lastName, '')
+    localStorage.setItem(this._username, '')
+    localStorage.setItem(this._userId, '')
   }
 
   refreshToken() {
