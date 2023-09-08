@@ -7,7 +7,6 @@ import {RelativeTimePipe} from './pipes/relative-time.pipe';
 import {CarouselComponent} from './carousel/carousel.component';
 import {CommentComponent} from "./comment/comment.component";
 import {RouterLink} from "@angular/router";
-import {CdkDrag} from "@angular/cdk/drag-drop";
 import { ImagePlaceholderPipe } from './pipes/image-placeholder.pipe';
 import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
 import { CreatePostModalWindowComponent } from './create-post-modal-window/create-post-modal-window.component';
@@ -40,7 +39,6 @@ import { PostModalWindowComponent } from './post-modal-window/post-modal-window.
         AngularSvgIconModule,
         FormsModule,
         RouterLink,
-        CdkDrag
     ]
 })
 export class SharedModule {
