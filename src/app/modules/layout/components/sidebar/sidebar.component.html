@@ -43,8 +43,8 @@
   </div>
   <div class="relative flex flex-row px-3 justify-between group">
     <div class="flex flex-row space-x-3">
-      <img src="https://picsum.photos/200" class="rounded-full md:w-7 md:h-7 w-5 h-5 shrink-0">
-      <span class="font-semibold text-sm max-xl:hidden my-auto">  Monroe Parker </span>
+      <img [src]="user.profileImage?.url | imagePlaceholder" class="rounded-full md:w-7 md:h-7 w-5 h-5 shrink-0">
+      <span class="font-semibold text-sm max-xl:hidden my-auto">  {{user.firstName}} {{user.lastName}} </span>
     </div>
     <svg-icon
       src="assets/icons/solid/chevron-right.svg"
@@ -62,32 +62,39 @@ hidden
         <div class="h-1.5 w-full rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-purple-500"></div>
         <div class="p-4">
           <div class="flex flex-col space-y-1">
-            <img src="https://picsum.photos/200" class="h-5 w-5 shrink-0 rounded-full md:h-7 md:w-7"/>
-            <span class="font-semibold">Monroe Parker</span>
-            <span class="text-sm font-semibold text-slate-500">@monroe</span>
+            <img [src]="user.profileImage?.url | imagePlaceholder" class="h-5 w-5 shrink-0 rounded-full md:h-7 md:w-7"/>
+            <span class="font-semibold">{{user.firstName}} {{user.lastName}} </span>
+            <span class="text-sm font-semibold text-slate-500">@{{user.profileName}}</span>
             <div class="flex flex-row space-x-2">
-              <span class="text-sm font-semibold">620K <span class="text-slate-500">Following</span></span>
-              <span class="text-sm font-semibold">620K <span class="text-slate-500">Followers</span></span>
+              <span class="text-sm font-semibold">{{user.followingCount}} <span class="text-slate-500">Following</span></span>
+              <span class="text-sm font-semibold">{{user.followerCount}} <span
+                class="text-slate-500">Followers</span></span>
             </div>
           </div>
         </div>
         <div class="border-t p-4 font-medium ">
           <ul class=" flex flex-col space-y-4">
-            <li class="flex flex-row space-x-2">
-              <svg-icon src="assets/icons/solid/user.svg"></svg-icon>
-              <span>Profile</span>
+            <li>
+              <a [routerLink]="['/app', 'profile']" class="flex flex-row space-x-2">
+                <svg-icon src="assets/icons/solid/user.svg"></svg-icon>
+                <span>Profile</span>
+              </a>
             </li>
-            <li class="flex flex-row space-x-2">
-              <svg-icon src="assets/icons/solid/bookmark.svg"></svg-icon>
-              <span>Upgrade</span>
+            <!--            <li class="flex flex-row space-x-2">-->
+            <!--              <svg-icon src="assets/icons/solid/bookmark.svg"></svg-icon>-->
+            <!--              <span>Upgrade</span>-->
+            <!--            </li>-->
+            <li>
+              <a [routerLink]="['/app', 'settings']" class="flex flex-row space-x-2">
+                <svg-icon src="assets/icons/solid/settings.svg"></svg-icon>
+                <span>Settings</span>
+              </a>
             </li>
-            <li class="flex flex-row space-x-2">
-              <svg-icon src="assets/icons/solid/settings.svg"></svg-icon>
-              <span>Settings</span>
-            </li>
-            <li class="flex flex-row space-x-2">
-              <svg-icon src="assets/icons/solid/log-out.svg"></svg-icon>
-              <span>Log out</span>
+            <li>
+              <a (click)="logout()" class="flex flex-row space-x-2 cursor-pointer">
+                <svg-icon src="assets/icons/solid/log-out.svg"></svg-icon>
+                <span>Log out</span>
+              </a>
             </li>
           </ul>
         </div>

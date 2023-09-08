@@ -1,6 +1,17 @@
 import {Injectable} from '@angular/core';
 import {IdentityApiClient, LoginResponse} from "../../api/identity-api";
-import {catchError, map, mergeAll, Observable, of, switchAll, switchMap, throwIfEmpty, timer} from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  mergeAll,
+  Observable,
+  of,
+  switchAll,
+  switchMap,
+  throwIfEmpty,
+  timer
+} from "rxjs";
 import jwtDecode from "jwt-decode";
 import {calculateThresholds} from "@angular-devkit/build-angular/src/utils/bundle-calculator";
 import {HttpHeaders} from "@angular/common/http";
@@ -15,6 +26,7 @@ export class AuthService {
   private _lastName = 'last-name';
   private _username = 'username';
   private _userId = 'user-id';
+  signedInWithGoogle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly identityApiClient: IdentityApiClient) {
   }
@@ -44,11 +56,17 @@ export class AuthService {
     }).pipe(
       map(res => {
         this.setup(res)
-
+        this.signedInWithGoogle$.next(false);
 
         return true;
       }),
       catchError(err => of(false)))
+  }
+
+  logout() {
+    return this.identityApiClient.logout(undefined!).pipe(map(_ => {
+      this.unsetup();
+    }));
   }
 
   private setup(response: LoginResponse) {
@@ -58,6 +76,15 @@ export class AuthService {
     localStorage.setItem(this._lastName, response.lastName!)
     localStorage.setItem(this._username, response.username!)
     localStorage.setItem(this._userId, response.userId!)
+  }
+
+  private unsetup() {
+    localStorage.setItem(this._token, '')
+    localStorage.setItem(this._refreshToken, '')
+    localStorage.setItem(this._firstName, '')
+    localStorage.setItem(this._lastName, '')
+    localStorage.setItem(this._username, '')
+    localStorage.setItem(this._userId, '')
   }
 
   refreshToken() {
@@ -76,6 +103,7 @@ export class AuthService {
   loginWithGoogle(credential: string) {
     return this.identityApiClient.loginWithGoogle({credential: credential}).pipe(map(res => {
       this.setup(res)
+      this.signedInWithGoogle$.next(true);
       return true;
     }), catchError(err => of(false)));
   }
