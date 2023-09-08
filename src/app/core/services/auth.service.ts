@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {IdentityApiClient, LoginResponse} from "../../api/identity-api";
-import {catchError, map, mergeAll, of, switchAll, switchMap, throwIfEmpty, timer} from "rxjs";
+import {catchError, map, mergeAll, Observable, of, switchAll, switchMap, throwIfEmpty, timer} from "rxjs";
 import jwtDecode from "jwt-decode";
 import {calculateThresholds} from "@angular-devkit/build-angular/src/utils/bundle-calculator";
+import {HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class AuthService {
     return localStorage.getItem(this._token)
   }
 
-  getUserId(){
+  getUserId() {
     return localStorage.getItem(this._userId)
   }
 
@@ -70,5 +71,12 @@ export class AuthService {
       catchError(err => {
         return of(false)
       }))
+  }
+
+  loginWithGoogle(credential: string) {
+    return this.identityApiClient.loginWithGoogle({credential: credential}).pipe(map(res => {
+      this.setup(res)
+      return true;
+    }), catchError(err => of(false)));
   }
 }

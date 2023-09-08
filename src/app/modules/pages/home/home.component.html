@@ -5,7 +5,10 @@
   <div id="feed" class="md:max-w-[510px] mx-auto flex-1 xl:space-y-6 space-y-3 overflow-y-auto scrollbar"
        (wheel)="onScroll($event)"
   >
-
+    <div *ngIf="items.length == 0"
+         class="w-full h-full flex flex-col justify-center items-center self-center text-center font-semibold text-2xl my-auto">
+      <span>You are not followed to anyone yet.</span>
+    </div>
     <div app-post *ngFor="let post of items"
          (unfollow)="reloadFeed()"
          [post]="post"></div>
