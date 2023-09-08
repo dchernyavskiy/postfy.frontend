@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import {catchError, Observable} from 'rxjs';
+import {catchError, Observable, switchMap} from 'rxjs';
 import {AuthService} from "../services/auth.service";
 
 @Injectable()
@@ -18,9 +18,12 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError(err => {
         if (err.status === 500) {
-          this.authService.refreshToken().subscribe(res => {
-            console.log(res)
-          })
+          return this.authService
+            .refreshToken()
+            .pipe(switchMap(res => next.handle(request)))
+          //   .subscribe(res => {
+          //   console.log(res)
+          // })
         }
         return next.handle(request);
       }));

@@ -19,7 +19,9 @@ export class SidebarComponent {
 
   logout() {
     this.authService.logout().subscribe(_ => {
-      this.router.navigate(['/auth'])
+      this.router.navigate(['/auth']).then(() => {
+        window.location.reload()
+      })
     })
   }
 }
