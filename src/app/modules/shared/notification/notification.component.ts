@@ -2,13 +2,19 @@ import {Component, OnDestroy} from '@angular/core';
 import {NotificationService, Notification} from "../../../core/services/notification.service";
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import {environment} from "../../../../environments/environment";
-import {data} from "autoprefixer";
 import {AuthService} from 'src/app/core/services/auth.service';
+import {
+  bounceInRightOnEnterAnimation, bounceOutRightOnLeaveAnimation,
+} from "angular-animations";
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
+  animations: [
+    bounceInRightOnEnterAnimation(),
+    bounceOutRightOnLeaveAnimation(),
+  ]
 })
 export class NotificationComponent implements OnDestroy {
   notifications: Notification[] = [];

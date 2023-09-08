@@ -10,6 +10,7 @@ import {environment} from "../environments/environment";
 import {NETWORK_API_BASE_URL} from "./api/network-api";
 import {JwtInterceptor} from "./core/interceptor/jwt.interceptor";
 import {SharedModule} from "./modules/shared/shared.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {SharedModule} from "./modules/shared/shared.module";
     AppRoutingModule,
     HttpClientModule,
     AngularSvgIconModule.forRoot(),
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {provide: IDENTITY_API_BASE_URL, useValue: environment.apiUrl},
