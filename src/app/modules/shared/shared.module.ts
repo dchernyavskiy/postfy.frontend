@@ -11,6 +11,7 @@ import { ImagePlaceholderPipe } from './pipes/image-placeholder.pipe';
 import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
 import { CreatePostModalWindowComponent } from './create-post-modal-window/create-post-modal-window.component';
 import { PostModalWindowComponent } from './post-modal-window/post-modal-window.component';
+import { NotificationComponent } from './notification/notification.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { PostModalWindowComponent } from './post-modal-window/post-modal-window.
     InfiniteScrollComponent,
     CreatePostModalWindowComponent,
     PostModalWindowComponent,
+    NotificationComponent,
   ],
   exports: [
     ModalWindowComponent,
@@ -33,6 +35,7 @@ import { PostModalWindowComponent } from './post-modal-window/post-modal-window.
     InfiniteScrollComponent,
     CreatePostModalWindowComponent,
     PostModalWindowComponent,
+    NotificationComponent,
   ],
     imports: [
         CommonModule,

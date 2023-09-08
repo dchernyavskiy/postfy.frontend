@@ -1,0 +1,38 @@
+import {Component, OnDestroy} from '@angular/core';
+import {NotificationService, Notification} from "../../../core/services/notification.service";
+import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
+import {environment} from "../../../../environments/environment";
+import {data} from "autoprefixer";
+import {AuthService} from 'src/app/core/services/auth.service';
+
+@Component({
+  selector: 'app-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.scss']
+})
+export class NotificationComponent implements OnDestroy {
+  notifications: Notification[] = [];
+  private hubConnection: HubConnection = new HubConnectionBuilder()
+    .withUrl(environment.apiUrl + '/signalr/v1/network/notification?userId=' + this.authService.getUserId())
+    .build();
+
+  constructor(private readonly notificationService: NotificationService, private readonly authService: AuthService) {
+    this.notifications = notificationService.notifications;
+    this.hubConnection.start().then(_ => {
+      console.log('connected')
+      this.hubConnection.on('ReceiveNotification', (data: any) => {
+        console.log('in receive notification')
+        const notification = new Notification(data.text);
+        this.notificationService.notifications.push(notification);
+      });
+    })
+  }
+
+  close(notification: Notification) {
+    this.notificationService.close(notification);
+  }
+
+  ngOnDestroy(): void {
+    this.hubConnection.stop();
+  }
+}

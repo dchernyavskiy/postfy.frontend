@@ -9,7 +9,7 @@ import {
 import {IdentityApiClient, UpdateUser} from "../../../api/identity-api";
 import {AuthService} from "../../../core/services/auth.service";
 import {BehaviorSubject, catchError, map, of} from "rxjs";
-import {th} from "date-fns/locale";
+import {NotificationService, Notification} from "../../../core/services/notification.service";
 
 @Component({
   selector: 'app-settings',
@@ -32,7 +32,8 @@ export class SettingsComponent {
 
   constructor(private readonly networkApiClient: NetworkApiClient,
               private readonly identityApiClient: IdentityApiClient,
-              private readonly authService: AuthService) {
+              private readonly authService: AuthService,
+              private readonly notificationService: NotificationService) {
     this.signedInWithGoogle$ = this.authService.signedInWithGoogle$;
     this.networkApiClient.getSettings({}).subscribe(res => {
       this.user = res.user!;
@@ -54,13 +55,13 @@ export class SettingsComponent {
 
   changeNSettings() {
     this.networkApiClient.changeNotificationsSettings(this.changeNotificationSettings).subscribe(res => {
-      console.log(res)
+      this.notificationService.notifications.push(new Notification("Notification settings was updated."));
     })
   }
 
   changePSettings() {
     this.networkApiClient.changePrivacySettings(this.changePrivacySettings).subscribe(res => {
-      console.log(res)
+      this.notificationService.notifications.push(new Notification("Privacy settings was updated."));
     })
   }
 
@@ -69,14 +70,14 @@ export class SettingsComponent {
       .pipe(
         map(res => res),
         catchError((error, res) => {
-          console.log(error)
+          this.notificationService.notifications.push(new Notification(error.detail));
           throw new Error();
         }))
       .subscribe(res => {
-        console.log(res)
+        this.notificationService.notifications.push(new Notification("General information was updated."));
         if (this.user.bio !== this.changeBio.bio) {
           this.networkApiClient.changeBio(this.changeBio).subscribe(res => {
-            console.log(res)
+            this.notificationService.notifications.push(new Notification("Bio was updated."));
           })
         }
       })
