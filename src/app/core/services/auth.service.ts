@@ -92,12 +92,9 @@ export class AuthService {
       accessToken: this.getToken()!,
       refreshToken: this.getRefreshToken()!
     }).pipe(map(res => {
-        this.setup(res)
-        return true
-      }),
-      catchError(err => {
-        return of(false)
-      }))
+      this.setup(res)
+      return res
+    }))
   }
 
   loginWithGoogle(credential: string) {
