@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {NetworkApiClient, PostBriefDto} from "../../../api/network-api";
+import {PostBriefDto} from "../../../api/network/models/post-brief-dto";
+import {PostsService} from "../../../api/network/services/posts.service";
 
 @Component({
   selector: 'app-favorites',
@@ -13,17 +14,15 @@ export class FavoritesComponent {
   totalItems: number = 0;
   isRequestSending = false;
 
-  constructor(private readonly networkApiClient: NetworkApiClient) {
+  constructor(private readonly postsService: PostsService) {
     this.getSavedPosts(10)
   }
 
   getSavedPosts(pageSize: number) {
-    this.networkApiClient.getSavedPosts(
-      undefined,
-      undefined,
-      undefined,
-      ++this.page,
-      pageSize
+    this.postsService.getSavedPosts({
+        Page: ++this.page,
+        PageSize: pageSize
+      }
     ).subscribe(res => {
       this.isRequestSending = false;
       this.totalItems = res.body?.totalItems!

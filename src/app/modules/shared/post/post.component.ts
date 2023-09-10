@@ -1,8 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CreateComment, NetworkApiClient, PostBriefDto} from "../../../api/network-api";
-import {PostService} from "../../../core/services/post.service";
 import {BehaviorSubject} from "rxjs";
 import {NotificationService, Notification} from "../../../core/services/notification.service";
+import {PostBriefDto} from "../../../api/network/models/post-brief-dto";
+import {CreateComment} from "../../../api/network/models/create-comment";
+import {PostsService} from "../../../api/network/services/posts.service";
+import {ReactionsService} from "../../../api/network/services/reactions.service";
+import {CommentsService} from "../../../api/network/services/comments.service";
+import {UsersService} from "../../../api/network/services/users.service";
 
 @Component({
   selector: 'div[app-post]',
@@ -14,14 +18,21 @@ export class PostComponent implements OnInit {
   @Output() unfollow: EventEmitter<void> = new EventEmitter();
   createComment: CreateComment = {}
 
-  constructor(private readonly postService: PostService,
+  constructor(private readonly postService: PostsService,
               private readonly notificationService: NotificationService,
-              private readonly networkApiClient: NetworkApiClient) {
+              private readonly reactionsService: ReactionsService,
+              private readonly commentsService: CommentsService,
+              private readonly usersService: UsersService
+  ) {
 
   }
 
   likePost(id: string) {
-    this.postService.likePost(id).subscribe(res => {
+    this.reactionsService.likePost({
+      body: {
+        postId: id
+      }
+    }).subscribe(res => {
       this.post.isLiked = !this.post.isLiked
       if (this.post.isLiked) {
         this.post.likeCount!++;
@@ -38,14 +49,14 @@ export class PostComponent implements OnInit {
 
   sendComment() {
     this.commentSubject$.next({isCommentLoading: true, isLoaded: false})
-    this.networkApiClient.createComment(this.createComment).subscribe(res => {
+    this.commentsService.createComment({body: this.createComment}).subscribe(res => {
       this.createComment.text = '';
       this.getPost()
     })
   }
 
   getPost() {
-    this.networkApiClient.getPost(this.post.id!).subscribe(res => {
+    this.postService.getPost({PostId: this.post.id!}).subscribe(res => {
       this.commentSubject$.next({isCommentLoading: false, isLoaded: true})
       // this.post = res.body!;
       this.post.comments = res.body?.comments;
@@ -62,13 +73,13 @@ export class PostComponent implements OnInit {
   }
 
   unfollowUser(id: string) {
-    this.networkApiClient.unfollowUser({userId: id}).subscribe(res => {
+    this.usersService.unfollowUser({body: {userId: id}}).subscribe(res => {
       this.unfollow.emit()
     })
   }
 
   savePost(post: PostBriefDto) {
-    this.networkApiClient.savePost({postId: post.id}).subscribe(res => {
+    this.postService.savePost({body: {postId: post.id}}).subscribe(res => {
       this.post.isSaved = !this.post.isSaved;
       if (this.post.isSaved) {
         this.notificationService.add(new Notification("Post was saved."))

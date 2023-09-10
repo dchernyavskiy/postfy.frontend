@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {NetworkApiClient, UserBriefDto} from "../../../api/network-api";
+import {UserBriefDto} from "../../../api/network/models/user-brief-dto";
+import {UsersService} from "../../../api/network/services/users.service";
 
 @Component({
   selector: 'app-search',
@@ -10,11 +11,11 @@ export class SearchComponent {
   users: UserBriefDto[] = [];
   query: string = '';
 
-  constructor(private readonly networkApiClient: NetworkApiClient) {
+  constructor(private readonly usersService: UsersService) {
   }
 
   getUsers(query: string) {
-    this.networkApiClient.searchUsers(query).subscribe(res => {
+    this.usersService.searchUsers({}).subscribe(res => {
       this.users = res.users!;
     })
   }

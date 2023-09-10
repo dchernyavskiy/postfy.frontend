@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "ng-openapi-gen": "ng-openapi-gen",
+    "generate.network": "ng-openapi-gen --input http://localhost:9000/swagger/v1/swagger.json -o src/app/api/network --module NetworkApiModule --skipJsonSuffix true --removeStaleFiles false",
+    "generate.identity": "ng-openapi-gen --input http://localhost:7000/swagger/v1/swagger.json -o src/app/api/identity --module IdentityApiModule --skipJsonSuffix true --removeStaleFiles false",
+    "generate": "npm run generate.network && npm run generate.identity"
   },
   "private": true,
   "dependencies": {

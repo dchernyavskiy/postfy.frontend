@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {MediaBriefDto} from "../../../api/network-api";
+import {MediaBriefDto} from "../../../api/network/models/media-brief-dto";
 
 @Component({
   selector: 'app-carousel',
@@ -7,8 +7,6 @@ import {MediaBriefDto} from "../../../api/network-api";
   styleUrls: ['./carousel.component.scss']
 })
 export class CarouselComponent {
-  ngOnInit(): void {
-  }
 
   @Input() images: MediaBriefDto[] = [];
   @Input() limit: number = 1;

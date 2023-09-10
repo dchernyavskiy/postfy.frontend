@@ -7,8 +7,9 @@
 
     <div class="w-2/5 flex-col flex my-auto">
       <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
-        <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img [src]="post.user?.profileImage?.url | imagePlaceholder" alt=""
-                                                                    class="w-9 h-9 rounded-full"> </a>
+        <a [routerLink]="['/app', 'profile', post.user?.id!]"> <img
+          [src]="post.user?.profileImage?.url | imagePlaceholder" alt=""
+          class="w-9 h-9 rounded-full"> </a>
         <div class="flex-1">
           <a [routerLink]="['/app', 'profile', post.user?.id!]"><h4
             class="text-black dark:text-white"> {{post.user?.firstName!}} {{post.user?.lastName!}}</h4></a>
@@ -84,24 +85,26 @@
           No comments yet.
         </div>
       </ng-template>
-      <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1 dark:border-slate-700/40">
+      <form
+        (submit)="sendComment()"
+        class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1 dark:border-slate-700/40">
 
-        <img src="https://picsum.photos/200" alt="" class="w-6 h-6 rounded-full">
+        <img [src]="post.user?.profileImage?.url | imagePlaceholder" alt="" class="w-6 h-6 rounded-full">
 
         <div class="flex-1 relative overflow-hidden h-10">
           <textarea
             name="text"
             [(ngModel)]="createComment.text"
+            required
             placeholder="Add Comment...."
             rows="1"
             class="w-full h-auto resize-none ring-0 !bg-transparent px-4 py-2 focus:!border-transparent focus:ring-0 focus:ring-offset-0 focus:outline-none"
           ></textarea>
         </div>
         <button type="submit"
-                (click)="sendComment()"
-                class="text-sm rounded-full py-1.5 px-3.5 bg-secondery"> Replay
+                class="text-sm rounded-full py-1.5 px-3.5 bg-slate-300"> Replay
         </button>
-      </div>
+      </form>
     </div>
   </div>
 </div>

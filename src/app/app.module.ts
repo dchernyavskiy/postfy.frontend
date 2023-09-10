@@ -5,12 +5,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AngularSvgIconModule} from "angular-svg-icon";
-import {IDENTITY_API_BASE_URL} from "./api/identity-api";
 import {environment} from "../environments/environment";
-import {NETWORK_API_BASE_URL} from "./api/network-api";
 import {JwtInterceptor} from "./core/interceptor/jwt.interceptor";
 import {SharedModule} from "./modules/shared/shared.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NetworkApiModule} from "./api/network/network-api.module";
+import {IdentityApiModule} from "./api/identity/identity-api.module";
 
 
 @NgModule({
@@ -23,11 +23,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HttpClientModule,
     AngularSvgIconModule.forRoot(),
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NetworkApiModule.forRoot({rootUrl: environment.apiUrl}),
+    IdentityApiModule.forRoot({rootUrl: environment.apiUrl}),
   ],
   providers: [
-    {provide: IDENTITY_API_BASE_URL, useValue: environment.apiUrl},
-    {provide: NETWORK_API_BASE_URL, useValue: environment.networkApiUrl},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

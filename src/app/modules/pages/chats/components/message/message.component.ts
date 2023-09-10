@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {MessageBriefDto} from "../../../../../api/network-api";
 import {bounceInLeftOnEnterAnimation, bounceInRightOnEnterAnimation} from "angular-animations";
+import {MessageBriefDto} from "../../../../../api/network/models/message-brief-dto";
 
 @Component({
   selector: 'app-message',

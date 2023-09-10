@@ -1,8 +1,5 @@
-import {Component, Input, TemplateRef} from '@angular/core';
-import {FileParameter, NetworkApiClient} from "../../../api/network-api";
-import {BehaviorSubject, map, mergeMap, switchMap,} from "rxjs";
-import {fi} from "date-fns/locale";
-import {ModalWindowService} from "../../../core/services/modal-window.service";
+import {Component, Input} from '@angular/core';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-modal-window',

@@ -14,7 +14,11 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
+    request = request.clone(
+      {
+        headers: request.headers.delete("Authorization").append("Authorization", 'Bearer ' + this.authService.getToken())
+      }
+    )
     return next.handle(request)
       .pipe(catchError(err => {
         if (err.status == 500 || err.status == 401) {
