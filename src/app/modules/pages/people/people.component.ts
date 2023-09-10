@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
-import {NetworkApiClient, UserBriefDtoWithFollowerCount} from "../../../api/network-api";
 import {Router} from "@angular/router";
+import {UserBriefDtoWithFollowerCount} from "../../../api/network/models/user-brief-dto-with-follower-count";
+import {UsersService} from "../../../api/network/services/users.service";
+import {ChatsService} from "../../../api/network/services/chats.service";
 
 @Component({
   selector: 'app-people',
@@ -23,7 +25,8 @@ export class PeopleComponent {
   followerCount: number = 0;
   followingsCount: number = 0;
 
-  constructor(private readonly networkApiClient: NetworkApiClient,
+  constructor(private readonly usersService: UsersService,
+              private readonly chatsService: ChatsService,
               private readonly router: Router) {
     this.getFollowers();
     this.getFollowings();
@@ -31,15 +34,12 @@ export class PeopleComponent {
   }
 
   getFollowers() {
-    this.networkApiClient.getFollowers(
-      undefined,
-      undefined,
-      undefined,
-      this.followersPage,
-      this.pageSize
+    this.usersService.getFollowers(
+      {
+        Page: this.followersPage,
+        PageSize: this.pageSize
+      }
     ).subscribe(res => {
-      console.log(res)
-
       this.followers.push(...res.body?.items!);
       this.followersPage++;
       this.isThereMoreFollowers = this.followers.length != res.body?.totalItems;
@@ -48,12 +48,11 @@ export class PeopleComponent {
   }
 
   getFollowings() {
-    this.networkApiClient.getFollowings(
-      undefined,
-      undefined,
-      undefined,
-      this.followingsPage,
-      this.pageSize
+    this.usersService.getFollowings(
+      {
+        Page: this.followingsPage,
+        PageSize: this.pageSize
+      }
     ).subscribe(res => {
       this.followings.push(...res.body?.items!);
       this.followingsPage++;
@@ -63,12 +62,11 @@ export class PeopleComponent {
   }
 
   getSuggestions() {
-    this.networkApiClient.getSuggestions(
-      undefined,
-      undefined,
-      undefined,
-      this.suggestionsPage,
-      this.pageSize
+    this.usersService.getSuggestions(
+      {
+        Page: this.suggestionsPage,
+        PageSize: this.pageSize
+      }
     ).subscribe(res => {
       this.suggestions.push(...res.body?.items!);
       this.suggestionsPage++;
@@ -78,14 +76,14 @@ export class PeopleComponent {
 
   unfollow(follower: UserBriefDtoWithFollowerCount) {
     if (follower.isFollowedByYou) {
-      this.networkApiClient.unfollowUser({userId: follower.id}).subscribe(res => {
+      this.usersService.unfollowUser({body: {userId: follower.id}}).subscribe(res => {
         if (this.followings.length == this.followingsCount) {
           this.followings.push(follower);
         }
         this.followingsCount--;
       })
     } else {
-      this.networkApiClient.followUser({userId: follower.id}).subscribe(res => {
+      this.usersService.followUser({body: {userId: follower.id}}).subscribe(res => {
         if (this.followings.length == this.followingsCount) {
           this.followings.splice(this.followings.indexOf(follower), 1);
         }
@@ -96,14 +94,14 @@ export class PeopleComponent {
   }
 
   follow(following: UserBriefDtoWithFollowerCount) {
-    this.networkApiClient.unfollowUser({userId: following.id}).subscribe(res => {
+    this.usersService.unfollowUser({body: {userId: following.id}}).subscribe(res => {
       this.followings.splice(this.followings.indexOf(following), 1);
       this.suggestions.push(following)
     })
   }
 
   followFromSuggestion(suggestion: UserBriefDtoWithFollowerCount) {
-    this.networkApiClient.followUser({userId: suggestion.id}).subscribe(res => {
+    this.usersService.followUser({body: {userId: suggestion.id}}).subscribe(res => {
       this.suggestions.splice(this.suggestions.indexOf(suggestion), 1);
       suggestion.isFollowedByYou = true;
       this.followings.push(suggestion);
@@ -111,7 +109,7 @@ export class PeopleComponent {
   }
 
   message(receiver: UserBriefDtoWithFollowerCount) {
-    this.networkApiClient.getOrCreateChat({userIds: [receiver.id!]}).subscribe(res => {
+    this.chatsService.getOrCreateChat({body: {userIds: [receiver.id!]}}).subscribe(res => {
       this.router.navigate(['/app', 'chats', res.chat?.id])
     })
   }

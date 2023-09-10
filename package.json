@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "ng-openapi-gen": "ng-openapi-gen",
+    "generate.network": "ng-openapi-gen --input http://localhost:9000/swagger/v1/swagger.json -o src/app/api/network --module NetworkApiModule --skipJsonSuffix true --removeStaleFiles false",
+    "generate.identity": "ng-openapi-gen --input http://localhost:7000/swagger/v1/swagger.json -o src/app/api/identity --module IdentityApiModule --skipJsonSuffix true --removeStaleFiles false",
+    "generate": "npm run generate.network && npm run generate.identity"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +24,7 @@
     "@angular/router": "^15.0.0",
     "@microsoft/signalr": "^7.0.10",
     "@types/google-one-tap": "^1.2.2",
+    "angular-animations": "^0.11.0",
     "angular-svg-icon": "^13.0.0",
     "date-fns": "^2.30.0",
     "jwt-decode": "^3.1.2",

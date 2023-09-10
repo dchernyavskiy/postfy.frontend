@@ -1,0 +1,32 @@
+/* tslint:disable */
+/* eslint-disable */
+import { HttpClient, HttpContext, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { StrictHttpResponse } from '../../strict-http-response';
+import { RequestBuilder } from '../../request-builder';
+
+import { CreateChat } from '../../models/create-chat';
+import { CreateChatResponse } from '../../models/create-chat-response';
+
+export interface CreateChat$Params {
+      body?: CreateChat
+}
+
+export function createChat(http: HttpClient, rootUrl: string, params?: CreateChat$Params, context?: HttpContext): Observable<StrictHttpResponse<CreateChatResponse>> {
+  const rb = new RequestBuilder(rootUrl, createChat.PATH, 'post');
+  if (params) {
+    rb.body(params.body, 'application/*+json');
+  }
+
+  return http.request(
+    rb.build({ responseType: 'json', accept: 'text/json', context })
+  ).pipe(
+    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+    map((r: HttpResponse<any>) => {
+      return r as StrictHttpResponse<CreateChatResponse>;
+    })
+  );
+}
+
+createChat.PATH = '/api/v1/network/chats';

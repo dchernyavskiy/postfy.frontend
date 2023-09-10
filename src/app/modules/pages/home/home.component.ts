@@ -1,7 +1,6 @@
-import {Component, HostListener} from '@angular/core';
-import {PostService} from "../../../core/services/post.service";
-import {PostBriefDto} from "../../../api/network-api";
-import {ta} from "date-fns/locale";
+import {Component} from '@angular/core';
+import {PostBriefDto} from "../../../api/network/models/post-brief-dto";
+import {PostsService} from "../../../api/network/services/posts.service";
 
 @Component({
   selector: 'app-home',
@@ -17,17 +16,15 @@ export class HomeComponent {
   isRequestSending = false;
 
 
-  constructor(private readonly postService: PostService) {
+  constructor(private readonly postService: PostsService) {
     this.getFeed(10)
   }
 
   getFeed(pageSize: number) {
-    this.postService.getFeed(
-      undefined,
-      undefined,
-      undefined,
-      ++this.page,
-      pageSize
+    this.postService.getFeed({
+        Page: ++this.page,
+        PageSize: pageSize
+      }
     ).subscribe(res => {
       this.isRequestSending = false;
       this.totalItems = res.body?.totalItems!

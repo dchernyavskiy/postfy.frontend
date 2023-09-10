@@ -1,8 +1,13 @@
 import {AfterViewChecked, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
-import {ChatBriefDto, ChatDto, CreateMessage, MessageBriefDto, NetworkApiClient} from "../../../api/network-api";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../core/services/auth.service";
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
+import {ChatBriefDto} from "../../../api/network/models/chat-brief-dto";
+import {ChatDto} from "../../../api/network/models/chat-dto";
+import {CreateMessage} from "../../../api/network/models/create-message";
+import {ChatsService} from "../../../api/network/services/chats.service";
+import {MessageBriefDto} from "../../../api/network/models/message-brief-dto";
+import {MessagesService} from "../../../api/network/services/messages.service";
 
 @Component({
   selector: 'app-chats',
@@ -19,14 +24,15 @@ export class ChatsComponent implements OnDestroy, AfterViewChecked {
     .withUrl('http://localhost:3000/signalr/v1/network/chat')
     .build();
 
-  constructor(private readonly networkApiClient: NetworkApiClient,
+  constructor(private readonly chatsService: ChatsService,
+              private readonly messagesService: MessagesService,
               private readonly authService: AuthService,
               private readonly route: ActivatedRoute) {
     route.params.subscribe(res => {
       const id = res['id']
       this.createMessage.chatId = id;
       if (id) {
-        this.networkApiClient.getChat(id).subscribe(res => {
+        this.chatsService.getChat({Id: id}).subscribe(res => {
           this.chat = res.chat
           this.hubConnection.start().then(
             _ => {
@@ -41,7 +47,7 @@ export class ChatsComponent implements OnDestroy, AfterViewChecked {
       }
     })
 
-    this.networkApiClient.getChats({}).subscribe(res => {
+    this.chatsService.getChats().subscribe(res => {
       this.chats = res.chat!
     })
   }
@@ -66,7 +72,7 @@ export class ChatsComponent implements OnDestroy, AfterViewChecked {
 
   sendMessage() {
 
-    this.networkApiClient.createMessage(this.createMessage).subscribe(res => {
+    this.messagesService.createMessage({body: this.createMessage}).subscribe(res => {
       this.createMessage.text = '';
       this.hubConnection.send('SendMessageAsync', this.chat?.id, res.message)
       this.chat?.messages?.push({
