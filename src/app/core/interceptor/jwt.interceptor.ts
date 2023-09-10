@@ -14,24 +14,26 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    request = request.clone(
-      {
-        headers: request.headers.delete("Authorization").append("Authorization", 'Bearer ' + this.authService.getToken())
-      }
-    )
+    request = this.addAuthHeader(request)
     return next.handle(request)
       .pipe(catchError(err => {
         if (err.status == 500 || err.status == 401) {
           return this.authService
             .refreshToken()
             .pipe(switchMap(res => {
-              const req = request.clone({
-                headers: request.headers.delete("Authorization").append("Authorization", 'Bearer ' + res.accessToken!)
-              })
-              return next.handle(req)
+              request = this.addAuthHeader(request)
+              return next.handle(request)
             }))
         }
         return next.handle(request);
       }));
+  }
+
+  private addAuthHeader(request: HttpRequest<unknown>) {
+    return request.clone(
+      {
+        headers: request.headers.delete("Authorization").append("Authorization", 'Bearer ' + this.authService.getToken())
+      }
+    )
   }
 }
