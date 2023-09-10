@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CreateComment, NetworkApiClient, PostBriefDto} from "../../../../../api/network-api";
-import {PostService} from "../../../../../core/services/post.service";
+import {CreateComment, NetworkApiClient, PostBriefDto} from "../../../api/network-api";
+import {PostService} from "../../../core/services/post.service";
 import {BehaviorSubject} from "rxjs";
+import {NotificationService, Notification} from "../../../core/services/notification.service";
 
 @Component({
   selector: 'div[app-post]',
@@ -13,7 +14,9 @@ export class PostComponent implements OnInit {
   @Output() unfollow: EventEmitter<void> = new EventEmitter();
   createComment: CreateComment = {}
 
-  constructor(private readonly postService: PostService, private readonly networkApiClient: NetworkApiClient) {
+  constructor(private readonly postService: PostService,
+              private readonly notificationService: NotificationService,
+              private readonly networkApiClient: NetworkApiClient) {
 
   }
 
@@ -36,7 +39,7 @@ export class PostComponent implements OnInit {
   sendComment() {
     this.commentSubject$.next({isCommentLoading: true, isLoaded: false})
     this.networkApiClient.createComment(this.createComment).subscribe(res => {
-      this.createComment = {};
+      this.createComment.text = '';
       this.getPost()
     })
   }
@@ -64,8 +67,14 @@ export class PostComponent implements OnInit {
     })
   }
 
-  savePost(id: string) {
-    this.networkApiClient.savePost({postId: id}).subscribe(res => {
+  savePost(post: PostBriefDto) {
+    this.networkApiClient.savePost({postId: post.id}).subscribe(res => {
+      this.post.isSaved = !this.post.isSaved;
+      if (this.post.isSaved) {
+        this.notificationService.add(new Notification("Post was saved."))
+      } else {
+        this.notificationService.add(new Notification("Post was unsaved."))
+      }
     })
   }
 }

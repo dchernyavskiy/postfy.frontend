@@ -1,4 +1,4 @@
-<main class="h-full 2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+<main class="h-full min-w-[728px] 2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
 
   <div class="2xl:max-w-6xl mx-auto h-screen relative shadow-lg overflow-hidden border1 max-md:pt-14">
 
@@ -141,7 +141,8 @@
         <div #messages class="w-full p-5 py-10 overflow-y-scroll md:h-[calc(100vh-137px)] h-[calc(100vh-250px)]">
 
           <div class="py-10 text-center text-sm lg:pt-8">
-            <img [src]="chat.guest?.profileImage?.url | imagePlaceholder" class="w-24 h-24 rounded-full mx-auto mb-3" alt="">
+            <img [src]="chat.guest?.profileImage?.url | imagePlaceholder" class="w-24 h-24 rounded-full mx-auto mb-3"
+                 alt="">
             <div class="mt-8">
               <div
                 class="md:text-xl text-base font-medium text-black dark:text-white"> {{chat.guest?.firstName}} {{chat.guest?.lastName}}</div>

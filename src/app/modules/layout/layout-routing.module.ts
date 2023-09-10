@@ -21,6 +21,7 @@ const routes: Routes = [
       {path: 'explore', loadChildren: () => import('../pages/explore/explore.module').then((m) => m.ExploreModule)},
       {path: 'people', loadChildren: () => import('../pages/people/people.module').then((m) => m.PeopleModule)},
       {path: 'settings', loadChildren: () => import('../pages/settings/settings.module').then((m) => m.SettingsModule)},
+      {path: 'favorites', loadChildren: () => import('../pages/favorites/favorites.module').then((m) => m.FavoritesModule)},
     ]
   }
 ];

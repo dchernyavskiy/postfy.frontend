@@ -25,11 +25,9 @@ export class NotificationComponent implements OnDestroy {
   constructor(private readonly notificationService: NotificationService, private readonly authService: AuthService) {
     this.notifications = notificationService.notifications;
     this.hubConnection.start().then(_ => {
-      console.log('connected')
       this.hubConnection.on('ReceiveNotification', (data: any) => {
-        console.log('in receive notification')
         const notification = new Notification(data.text);
-        this.notificationService.notifications.push(notification);
+        this.notificationService.add(notification);
       });
     })
   }

@@ -38,8 +38,6 @@ export class PeopleComponent {
       this.followersPage,
       this.pageSize
     ).subscribe(res => {
-      console.log(res)
-
       this.followers.push(...res.body?.items!);
       this.followersPage++;
       this.isThereMoreFollowers = this.followers.length != res.body?.totalItems;

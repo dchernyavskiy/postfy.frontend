@@ -2,11 +2,16 @@ import {Component} from '@angular/core';
 import {NetworkApiClient, UserDto} from "../../../../api/network-api";
 import {AuthService} from "../../../../core/services/auth.service";
 import {Router} from "@angular/router";
+import {fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation} from "angular-animations";
 
 @Component({
   selector: 'div[app-sidebar]',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  animations: [
+    fadeInUpOnEnterAnimation(),
+    fadeOutDownOnLeaveAnimation()
+  ]
 })
 export class SidebarComponent {
   user: UserDto = {};

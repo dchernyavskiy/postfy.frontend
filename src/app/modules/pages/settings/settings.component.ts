@@ -55,13 +55,13 @@ export class SettingsComponent {
 
   changeNSettings() {
     this.networkApiClient.changeNotificationsSettings(this.changeNotificationSettings).subscribe(res => {
-      this.notificationService.notifications.push(new Notification("Notification settings was updated."));
+      this.notificationService.add(new Notification("Notification settings was updated."));
     })
   }
 
   changePSettings() {
     this.networkApiClient.changePrivacySettings(this.changePrivacySettings).subscribe(res => {
-      this.notificationService.notifications.push(new Notification("Privacy settings was updated."));
+      this.notificationService.add(new Notification("Privacy settings was updated."));
     })
   }
 
@@ -70,14 +70,14 @@ export class SettingsComponent {
       .pipe(
         map(res => res),
         catchError((error, res) => {
-          this.notificationService.notifications.push(new Notification(error.detail));
+          this.notificationService.add(new Notification(error.detail));
           throw new Error();
         }))
       .subscribe(res => {
-        this.notificationService.notifications.push(new Notification("General information was updated."));
+        this.notificationService.add(new Notification("General information was updated."));
         if (this.user.bio !== this.changeBio.bio) {
           this.networkApiClient.changeBio(this.changeBio).subscribe(res => {
-            this.notificationService.notifications.push(new Notification("Bio was updated."));
+            this.notificationService.add(new Notification("Bio was updated."));
           })
         }
       })

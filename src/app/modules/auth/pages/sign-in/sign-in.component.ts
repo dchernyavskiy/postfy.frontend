@@ -24,8 +24,6 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     // @ts-ignore
-    console.log(google)
-    // @ts-ignore
     window.onGoogleLibraryLoad = () => {
       // @ts-ignore
       google.accounts.id.initialize({
@@ -49,7 +47,6 @@ export class SignInComponent implements OnInit {
   }
 
   async handleCredentialsResponse(response: CredentialResponse) {
-    console.log('in handleCredentialsResponse')
     await this.authService.loginWithGoogle(response.credential).subscribe(
       (res: any) => {
         if (res) this.router.navigate(['']);
