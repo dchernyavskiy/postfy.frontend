@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ChatBriefDto} from "../../../../../api/network-api";
+import {ChatBriefDto} from "../../../../../api/network/models/chat-brief-dto";
 
 @Component({
   selector: 'app-user',

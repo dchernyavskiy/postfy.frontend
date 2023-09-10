@@ -1,8 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {PostService} from "../../../core/services/post.service";
-import {NetworkApiClient, PostBriefDto, UserDto} from "../../../api/network-api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../core/services/auth.service";
+import {UserDto} from "../../../api/network/models/user-dto";
+import {PostBriefDto} from "../../../api/network/models/post-brief-dto";
+import {PostsService} from "../../../api/network/services/posts.service";
+import {UsersService} from "../../../api/network/services/users.service";
+import {ChatsService} from "../../../api/network/services/chats.service";
 
 @Component({
   selector: 'app-profile',
@@ -17,14 +20,15 @@ export class ProfileComponent {
   totalItems: number = 0;
   items: PostBriefDto[] = [];
 
-  constructor(private readonly postService: PostService,
+  constructor(private readonly postService: PostsService,
               private readonly authService: AuthService,
-              private readonly networkApiClient: NetworkApiClient,
+              private readonly usersService: UsersService,
+              private readonly chatsService: ChatsService,
               private readonly router: Router,
               private readonly route: ActivatedRoute) {
     route.params.subscribe(res => {
       this.id = res['id']
-      this.networkApiClient.getProfile(this.id).subscribe(res => {
+      this.usersService.getProfile({UserId: this.id}).subscribe(res => {
         this.user = res.user!
       })
       this.isMyProfile = !Boolean(this.id)
@@ -34,12 +38,11 @@ export class ProfileComponent {
 
   getPosts() {
     this.postService.getPosts(
-      this.id,
-      undefined,
-      undefined,
-      undefined,
-      ++this.page,
-      this.pageSize
+      {
+        UserId: this.id,
+        Page: ++this.page,
+        PageSize: this.pageSize
+      }
     ).subscribe(res => {
       this.items.push(...res.body?.items!);
       this.totalItems = res.body?.totalItems!;
@@ -64,19 +67,19 @@ export class ProfileComponent {
 
   follow() {
     if (this.user.isFollowed) {
-      this.networkApiClient.unfollowUser({userId: this.user.id}).subscribe(res => {
+      this.usersService.unfollowUser({body: {userId: this.user.id}}).subscribe(res => {
         this.user.isFollowed = false
       })
     } else {
-      this.networkApiClient.followUser({userId: this.user.id}).subscribe(res => {
+      this.usersService.followUser({body: {userId: this.user.id}}).subscribe(res => {
         this.user.isFollowed = true
       })
     }
   }
 
   redirectToChat() {
-    this.networkApiClient.getOrCreateChat({
-      userIds: [this.user.id!]
+    this.chatsService.getOrCreateChat({
+      body: {userIds: [this.user.id!]}
     }).subscribe(res => {
       this.router.navigate(['/app', 'chats', res.chat?.id!])
     })

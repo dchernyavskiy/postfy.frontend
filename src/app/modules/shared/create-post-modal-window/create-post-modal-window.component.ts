@@ -1,7 +1,7 @@
 import {Component, Input, TemplateRef, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {FileParameter, NetworkApiClient} from "../../../api/network-api";
 import {ModalWindowService} from "../../../core/services/modal-window.service";
+import {PostsService} from "../../../api/network/services/posts.service";
 
 @Component({
   selector: 'app-create-post-modal-window',
@@ -15,7 +15,8 @@ export class CreatePostModalWindowComponent {
   @Input() isHidden$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isDragging: boolean = false;
 
-  constructor(private readonly networkApiClient: NetworkApiClient, protected readonly modalWindowService: ModalWindowService) {
+  constructor(private readonly postsService: PostsService,
+              protected readonly modalWindowService: ModalWindowService) {
 
   }
 
@@ -36,12 +37,13 @@ export class CreatePostModalWindowComponent {
   }
 
   uploadFiles() {
-    const files = Array.from(this.medias).map((file) => {
-      return {data: file, fileName: file.name} as FileParameter
-    })
-    this.networkApiClient.createPost(
-      this.caption,
-      files
+    this.postsService.createPost(
+      {
+        body: {
+          Caption: this.caption,
+          Files: this.medias
+        }
+      },
     ).subscribe((response) => {
       this.isHidden$.next(true)
     })

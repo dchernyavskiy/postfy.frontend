@@ -1,20 +1,12 @@
 import {Injectable} from '@angular/core';
-import {IdentityApiClient, LoginResponse} from "../../api/identity-api";
 import {
   BehaviorSubject,
   catchError,
   map,
-  mergeAll,
-  Observable,
   of,
-  switchAll,
-  switchMap,
-  throwIfEmpty,
-  timer
 } from "rxjs";
-import jwtDecode from "jwt-decode";
-import {calculateThresholds} from "@angular-devkit/build-angular/src/utils/bundle-calculator";
-import {HttpHeaders} from "@angular/common/http";
+import {IdentityService} from "../../api/identity/services/identity.service";
+import {LoginResponse} from "../../api/identity/models/login-response";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +20,7 @@ export class AuthService {
   private _userId = 'user-id';
   signedInWithGoogle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly identityApiClient: IdentityApiClient) {
+  constructor(private readonly identityService: IdentityService) {
   }
 
   isAuthorized(): boolean {
@@ -49,10 +41,13 @@ export class AuthService {
   }
 
   login(userNameOrEmail: string, password: string) {
-    return this.identityApiClient.login({
-      userNameOrEmail: userNameOrEmail,
-      password: password,
-      remember: true
+    return this.identityService.login({
+      body:
+        {
+          userNameOrEmail: userNameOrEmail,
+          password: password,
+          remember: true
+        }
     }).pipe(
       map(res => {
         this.setup(res)
@@ -64,7 +59,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.identityApiClient.logout(undefined!).pipe(map(_ => {
+    return this.identityService.logout().pipe(map(_ => {
       this.unsetup();
     }));
   }
@@ -88,20 +83,23 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.identityApiClient.refreshToken({
-      accessToken: this.getToken()!,
-      refreshToken: this.getRefreshToken()!
+    return this.identityService.refreshToken({
+      body: {
+        accessToken: this.getToken()!,
+        refreshToken: this.getRefreshToken()!
+      }
     }).pipe(map(res => {
-        this.setup(res)
-        return true
-      }),
-      catchError(err => {
-        return of(false)
-      }))
+      this.setup(res)
+      return res
+    }))
   }
 
   loginWithGoogle(credential: string) {
-    return this.identityApiClient.loginWithGoogle({credential: credential}).pipe(map(res => {
+    return this.identityService.loginWithGoogle({
+      body: {
+        credential: credential
+      }
+    }).pipe(map(res => {
       this.setup(res)
       this.signedInWithGoogle$.next(true);
       return true;

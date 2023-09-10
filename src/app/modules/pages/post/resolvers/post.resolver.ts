@@ -1,17 +1,17 @@
 import {inject, Injectable} from '@angular/core';
 import {
-  Router, Resolve, ResolveFn,
+  ResolveFn,
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
 import {map, Observable, of} from 'rxjs';
-import {PostDto} from "../../../../api/network-api";
-import {PostService} from "../../../../core/services/post.service";
+import {PostDto} from "../../../../api/network/models/post-dto";
+import {PostsService} from "../../../../api/network/services/posts.service";
 
 export const PostResolver: ResolveFn<PostDto> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
-  postService: PostService = inject(PostService)
+  postService: PostsService = inject(PostsService)
 ): Observable<PostDto> => {
   return postService.getPost(route.params['id']).pipe(map(res => res.body!))
 }

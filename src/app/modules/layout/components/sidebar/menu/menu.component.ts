@@ -36,6 +36,11 @@ export class MenuComponent {
         route: '',
       },
       {
+        icon: 'assets/icons/solid/bookmark.svg',
+        label: 'Favorites',
+        route: '/app/favorites',
+      },
+      {
         icon: 'assets/icons/solid/users.svg',
         label: 'People',
         route: '/app/people',

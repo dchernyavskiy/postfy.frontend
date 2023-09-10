@@ -1,0 +1,15 @@
+<div class="fixed top-10 right-10 flex flex-col space-y-2">
+  <div class="bg-gradient-to-r max-w-sm rounded-xl from-orange-500 to-pink-600 pb-[2px] pl-[2px]"
+       *ngFor="let notification of notifications"
+       [@bounceInRightOnEnter]
+       [@bounceOutRightOnLeave]
+  >
+    <div class="bg-white px-8  rounded-xl py-4 flex flex-row space-x-2 justify-between ">
+      <p class="text-gray-800">{{notification.text}}</p>
+      <svg-icon (click)="close(notification)"
+                src="assets/icons/solid/x.svg" class="my-auto">
+
+      </svg-icon>
+    </div>
+  </div>
+</div>

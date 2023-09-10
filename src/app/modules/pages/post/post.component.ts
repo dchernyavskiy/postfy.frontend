@@ -1,8 +1,13 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {PostService} from "../../../core/services/post.service";
-import {CreateComment, NetworkApiClient, PostDto} from "../../../api/network-api";
 import {BehaviorSubject, map} from "rxjs";
+import {PostDto} from "../../../api/network/models/post-dto";
+import {CreateComment} from "../../../api/network/models/create-comment";
+import {PostsService} from "../../../api/network/services/posts.service";
+import {Reaction} from "../../../api/network/models/reaction";
+import {ReactionsService} from "../../../api/network/services/reactions.service";
+import {CommentsService} from "../../../api/network/services/comments.service";
+import {UsersService} from "../../../api/network/services/users.service";
 
 @Component({
   selector: 'app-post',
@@ -13,17 +18,23 @@ export class PostComponent {
   post: PostDto = {};
   createComment: CreateComment = {};
 
-  constructor(private readonly router: Router, private readonly postService: PostService, private readonly route: ActivatedRoute, private readonly networkApiClient: NetworkApiClient) {
+  constructor(private readonly router: Router,
+              private readonly postService: PostsService,
+              private readonly reactionsService: ReactionsService,
+              private readonly commentsService: CommentsService,
+              private readonly usersService: UsersService,
+              private readonly route: ActivatedRoute,
+  ) {
     route.params.subscribe(res => {
       const id = res['id']
-      this.networkApiClient.getPost(id).subscribe(res => {
+      this.postService.getPost({PostId: id}).subscribe(res => {
         this.post = res.body!;
       })
     })
   }
 
   likePost(id: string) {
-    this.postService.likePost(id).subscribe(res => {
+    this.reactionsService.likePost({body: {postId: id}}).subscribe(res => {
       this.post.isLiked = !this.post.isLiked
       if (this.post.isLiked) {
         this.post.likeCount!++;
@@ -40,27 +51,27 @@ export class PostComponent {
 
   sendComment() {
     this.commentSubject$.next({isCommentLoading: true, isLoaded: false})
-    this.networkApiClient.createComment(this.createComment).subscribe(res => {
-      this.createComment = {};
+    this.commentsService.createComment({body: this.createComment}).subscribe(res => {
+      this.createComment.text = '';
       this.getPost()
     })
   }
 
   getPost() {
-    this.networkApiClient.getPost(this.post.id!).subscribe(res => {
+    this.postService.getPost({PostId: this.post.id!}).subscribe(res => {
       this.commentSubject$.next({isCommentLoading: false, isLoaded: true})
       this.post = res.body!;
     })
   }
 
   unfollowUser(id: string) {
-    this.networkApiClient.unfollowUser({userId: id}).subscribe(res => {
+    this.usersService.unfollowUser({body: {userId: id}}).subscribe(res => {
       this.router.navigate(['/app'])
     })
   }
 
   savePost(id: string) {
-    this.networkApiClient.savePost({postId: id}).subscribe(res => {
+    this.postService.savePost({body: {postId: id}}).subscribe(res => {
     })
   }
 }

@@ -1,15 +1,16 @@
 import {Component} from '@angular/core';
-import {
-  ChangeBio,
-  ChangeNotificationsSettings,
-  ChangePrivacySettings,
-  NetworkApiClient, Permissions,
-  UserSettingsDto
-} from "../../../api/network-api";
-import {IdentityApiClient, UpdateUser} from "../../../api/identity-api";
 import {AuthService} from "../../../core/services/auth.service";
 import {BehaviorSubject, catchError, map, of} from "rxjs";
-import {th} from "date-fns/locale";
+import {NotificationService, Notification} from "../../../core/services/notification.service";
+import {UserSettingsDto} from "../../../api/network/models/user-settings-dto";
+import {ChangeNotificationsSettings} from "../../../api/network/models/change-notifications-settings";
+import {ChangePrivacySettings} from "../../../api/network/models/change-privacy-settings";
+import {UpdateUser} from "../../../api/identity/models/update-user";
+import {ChangeBio} from "../../../api/network/models/change-bio";
+import {Permissions} from "../../../api/network/models/permissions";
+import {UsersService as IUsersService} from "../../../api/identity/services/users.service";
+import {UsersService as NUsersService} from "../../../api/network/services/users.service";
+
 
 @Component({
   selector: 'app-settings',
@@ -30,11 +31,13 @@ export class SettingsComponent {
     {name: 'Nobody', value: Permissions.Nobody},
   ];
 
-  constructor(private readonly networkApiClient: NetworkApiClient,
-              private readonly identityApiClient: IdentityApiClient,
-              private readonly authService: AuthService) {
+  constructor(
+    private readonly iUsersService: IUsersService,
+    private readonly nUsersService: NUsersService,
+    private readonly authService: AuthService,
+    private readonly notificationService: NotificationService) {
     this.signedInWithGoogle$ = this.authService.signedInWithGoogle$;
-    this.networkApiClient.getSettings({}).subscribe(res => {
+    this.nUsersService.getSettings().subscribe(res => {
       this.user = res.user!;
       this.setupUpdate()
       this.changeBio.bio = res.user?.bio;
@@ -53,30 +56,30 @@ export class SettingsComponent {
   }
 
   changeNSettings() {
-    this.networkApiClient.changeNotificationsSettings(this.changeNotificationSettings).subscribe(res => {
-      console.log(res)
+    this.nUsersService.changeNotificationsSettings({body: this.changeNotificationSettings}).subscribe(res => {
+      this.notificationService.add(new Notification("Notification settings was updated."));
     })
   }
 
   changePSettings() {
-    this.networkApiClient.changePrivacySettings(this.changePrivacySettings).subscribe(res => {
-      console.log(res)
+    this.nUsersService.changePrivacySettings({body: this.changePrivacySettings}).subscribe(res => {
+      this.notificationService.add(new Notification("Privacy settings was updated."));
     })
   }
 
   changeGeneralInfo() {
-    this.identityApiClient.updateUser(this.updateUser)
+    this.iUsersService.updateUser({body: this.updateUser})
       .pipe(
         map(res => res),
         catchError((error, res) => {
-          console.log(error)
+          this.notificationService.add(new Notification(error.detail));
           throw new Error();
         }))
       .subscribe(res => {
-        console.log(res)
+        this.notificationService.add(new Notification("General information was updated."));
         if (this.user.bio !== this.changeBio.bio) {
-          this.networkApiClient.changeBio(this.changeBio).subscribe(res => {
-            console.log(res)
+          this.nUsersService.changeBio({body: this.changeBio}).subscribe(res => {
+            this.notificationService.add(new Notification("Bio was updated."));
           })
         }
       })
